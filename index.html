@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ANJAY Private Chat - Login</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            background: #09090b;
+            background-image: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #09090b 70%);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .app-card {
+            width: 100vw;
+            height: 100vh;
+            background: rgba(24, 24, 27, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .top-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .logo {
+            width: 90px;
+            height: 90px;
+            border-radius: 22px;
+            object-fit: cover;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
+            margin-bottom: 14px;
+        }
+
+        .app-name {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #38bdf8, #818cf8, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .privacy-badge {
+            margin-top: 6px;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .content-box {
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #f8fafc;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: #94a3b8;
+            line-height: 1.5;
+            padding: 0 10px;
+        }
+
+        .dots-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: 0.4s;
+        }
+
+        .dot.active {
+            background: #38bdf8;
+            width: 30px;
+            border-radius: 10px;
+        }
+
+        .input-group {
+            width: 100%;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .input-group label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            text-align: left;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-container input, .input-group input {
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            text-align: center;
+        }
+
+        .eye-btn {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #94a3b8;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #38bdf8, #4f46e5);
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+        }
+
+        .custom-alert {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            z-index: 100;
+        }
+
+        .alert-card {
+            background: #18181b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 24px;
+            border-radius: 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .alert-card p {
+            font-size: 14px;
+            color: #f1f5f9;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .alert-btn {
+            width: 100%;
+            padding: 12px;
+            background: #38bdf8;
+            border: none;
+            border-radius: 12px;
+            color: #09090b;
+            font-weight: 800;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-card">
+        <div class="top-section">
+            <img src="logo.png" alt="Logo" class="logo" onerror="this.src='https://via.placeholder.com/90/38bdf8/09090b?text=ANJAY'">
+            <div class="app-name">ANJAY</div>
+            <div class="privacy-badge">PRIVATE CHAT</div>
+        </div>
+
+        <div class="content-box" id="contentBox">
+            <h2 class="feature-title" id="featureTitle">100% Anonymous</h2>
+            <p class="feature-desc" id="featureDesc">Koi mobile number ya email ki zaroorat nahi. Aapki pehchan fully hidden rahegi.</p>
+        </div>
+
+        <div class="input-group" id="usernameGroup">
+            <label>Choose or Enter Username</label>
+            <input type="text" id="usernameInput" placeholder="Apna username dalein..." maxlength="15" autocomplete="off">
+        </div>
+
+        <div class="input-group" id="pinGroup">
+            <label id="pinLabel">Set 4-Digit Private Key</label>
+            <div class="password-container">
+                <input type="password" id="pinInput" placeholder="••••" maxlength="4" inputmode="numeric" autocomplete="off">
+                <span class="eye-btn" onclick="togglePinVisibility()">👁️</span>
+            </div>
+            <button style="background:none; border:none; color:#38bdf8; font-size:13px; text-decoration:underline; cursor:pointer; margin-top:8px; display:none;" id="forgotBtn" onclick="forgotPassword()">Forgot Private Key?</button>
+        </div>
+
+        <div style="width: 100%;">
+            <div class="dots-container" id="dotsContainer">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <button class="btn" id="nextBtn" onclick="nextStep()">Next</button>
+        </div>
+
+        <div class="custom-alert" id="customAlert">
+            <div class="alert-card">
+                <p id="alertMessage">Kripya details sahi bharein!</p>
+                <button class="alert-btn" onclick="closeAlert()">Samajh Gaya</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAJBgC-DTaoKdg_hmnxMAMPM-0tIQ999Js",
+            authDomain: "anjay-sms-d7930.firebaseapp.com",
+            databaseURL: "https://anjay-sms-d7930-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "anjay-sms-d7930",
+            storageBucket: "anjay-sms-d7930.firebasestorage.app",
+            messagingSenderId: "726689670179",
+            appId: "1:726689670179:web:5ffb3e1f43ccd95db0bd96",
+            measurementId: "G-7CWNH4P1PW"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        if (localStorage.getItem('myChatId') && localStorage.getItem('myUsername')) {
+            window.location.href = "homepage.html";
+        }
+
+        let flowState = "SLIDES";
+        let tempUsername = "";
+        let existingUserData = null;
+        let isExistingUser = false;
+        let isMissingPin = false;
+
+        function togglePinVisibility() {
+            const input = document.getElementById('pinInput');
+            input.type = input.type === 'password' ? 'text' : 'password';
+        }
+
+        const steps = [
+            { title: "100% Anonymous", desc: "Koi mobile number ya email ki zaroorat nahi. Aapki pehchan fully hidden rahegi." },
+            { title: "End-To-End Encrypted", desc: "Aapke saare messages highly secure hain aur server par bhi leak nahi ho sakte." },
+            { title: "Permanent Chat ID", desc: "Aapko milega ek Random Chat ID jisse aap dosto ke sath secure chat kar sakein." }
+        ];
+        let currentStep = 0;
+
+        function nextStep() {
+            const contentBox = document.getElementById('contentBox');
+            const btn = document.getElementById('nextBtn');
+
+            if (flowState === "SLIDES") {
+                if (currentStep < steps.length - 1) {
+                    currentStep++;
+                    document.getElementById('featureTitle').innerText = steps[currentStep].title;
+                    document.getElementById('featureDesc').innerText = steps[currentStep].desc;
+                    document.querySelectorAll('.dot').forEach((dot, idx) => dot.classList.toggle('active', idx === currentStep));
+                    if (currentStep === steps.length - 1) btn.innerText = "Continue";
+                } else {
+                    flowState = "USERNAME_INPUT";
+                    contentBox.style.display = 'none';
+                    document.getElementById('dotsContainer').style.display = 'none';
+                    document.getElementById('usernameGroup').style.display = 'flex';
+                    btn.innerText = "Next";
+                }
+            } else if (flowState === "USERNAME_INPUT") {
+                const username = document.getElementById('usernameInput').value.trim();
+                if (username.length < 3) {
+                    showAlert("Username must be at least 3 characters!");
+                    return;
+                }
+                tempUsername = username;
+                checkUserInDatabase(username);
+            } else if (flowState === "PIN_INPUT") {
+                handlePinSubmit();
+            }
+        }
+
+        function checkUserInDatabase(username) {
+            database.ref('users').orderByChild('username').equalTo(username).once('value').then(snapshot => {
+                document.getElementById('usernameGroup').style.display = 'none';
+                document.getElementById('pinGroup').style.display = 'flex';
+
+                if (snapshot.exists()) {
+                    isExistingUser = true;
+                    snapshot.forEach(child => {
+                        existingUserData = child.val();
+                        existingUserData.chatIdKey = child.key;
+                    });
+                    if (!existingUserData.privateKey) {
+                        isMissingPin = true;
+                        document.getElementById('pinLabel').innerText = "Create New Private Key (PIN)";
+                        document.getElementById('nextBtn').innerText = "Save & Login";
+                    } else {
+                        isMissingPin = false;
+                        document.getElementById('pinLabel').innerText = "Enter your Private Key";
+                        document.getElementById('forgotBtn').style.display = 'block';
+                        document.getElementById('nextBtn').innerText = "Login Chat";
+                    }
+                } else {
+                    isExistingUser = false;
+                    isMissingPin = false;
+                    document.getElementById('pinLabel').innerText = "Create 4-Digit Private Key (PIN)";
+                    document.getElementById('nextBtn').innerText = "Start Chatting";
+                }
+                flowState = "PIN_INPUT";
+            });
+        }
+
+        function handlePinSubmit() {
+            const pin = document.getElementById('pinInput').value.trim();
+            if (pin.length !== 4 || isNaN(pin)) {
+                showAlert("Private Key strictly 4 digits ki honi chahiye!");
+                return;
+            }
+
+            if (isExistingUser) {
+                if (isMissingPin) {
+                    database.ref('users/' + existingUserData.chatIdKey).update({ privateKey: pin }).then(() => {
+                        localStorage.setItem('myChatId', existingUserData.chatIdKey);
+                        localStorage.setItem('myUsername', existingUserData.username);
+                        window.location.href = "homepage.html";
+                    });
+                } else {
+                    if (pin === String(existingUserData.privateKey)) {
+                        localStorage.setItem('myChatId', existingUserData.chatIdKey);
+                        localStorage.setItem('myUsername', existingUserData.username);
+                        window.location.href = "homepage.html";
+                    } else {
+                        showAlert("Galat Private Key! Kripya sahi PIN dalein.");
+                    }
+                }
+            } else {
+                const randomId = Math.floor(100000 + Math.random() * 900000).toString();
+                const userData = { username: tempUsername, privateKey: pin, chatId: randomId, createdAt: Date.now() };
+                database.ref('users/' + randomId).set(userData).then(() => {
+                    localStorage.setItem('myChatId', randomId);
+                    localStorage.setItem('myUsername', tempUsername);
+                    window.location.href = "homepage.html";
+                });
+            }
+        }
+
+        function forgotPassword() {
+            window.location.href = `https://wa.me/918160723494?text=Hi,%20I%20forgot%20my%20ANJAY%20Private%20Chat%20PIN.%20Username:%20${tempUsername}`;
+        }
+
+        function showAlert(msg) {
+            document.getElementById('alertMessage').innerText = msg;
+            document.getElementById('customAlert').style.display = 'flex';
+        }
+
+        function closeAlert() {
+            document.getElementById('customAlert').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
