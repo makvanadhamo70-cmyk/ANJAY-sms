@@ -174,7 +174,7 @@
         /* Account / Instagram Style */
         .instagram-profile { display: flex; flex-direction: column; gap: 20px; padding-top: 10px; }
         .profile-header-insta { display: flex; align-items: center; gap: 20px; }
-        .insta-avatar { width: 85px; height: 85px; border-radius: 50%; object-fit: cover; border: 2px solid #38bdf8; cursor: pointer; }
+        .insta-avatar { width: 85px; height: 85px; border-radius: 50%; object-fit: cover; border: 2px solid #38bdf8; cursor: pointer; background: #27272a; }
         .insta-stats { display: flex; gap: 20px; flex: 1; justify-content: space-around; text-align: center; }
         .stat-box h3 { font-size: 18px; font-weight: 800; color: #f8fafc; }
         .stat-box p { font-size: 11px; color: #94a3b8; }
@@ -252,7 +252,7 @@
         <div id="accountTab" class="tab-content">
             <div class="instagram-profile">
                 <div class="profile-header-insta">
-                    <img id="myProfilePic" src="https://via.placeholder.com/85/27272a/38bdf8?text=PFP" class="insta-avatar" onclick="triggerPfpUpload()">
+                    <img id="myProfilePic" src="" class="insta-avatar" onclick="triggerPfpUpload()">
                     <input type="file" id="pfpFileInput" style="display: none;" accept="image/*" onchange="uploadProfilePic(this)">
                     <div class="insta-stats">
                         <div class="stat-box">
@@ -276,7 +276,7 @@
             </div>
         </div>
 
-        <!-- BOTTOM NAVIGATION (4 Options Restored) -->
+        <!-- BOTTOM NAVIGATION (4 Options) -->
         <div class="nav-bar">
             <button class="nav-item active" onclick="switchTab('chats', this)">
                 <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> Chat
@@ -351,6 +351,9 @@
         let pressTimer; let selectedMsgId = null; let selectedMsgText = "";
         let isSuggestionsHidden = localStorage.getItem('hideAllSuggestionsFlag') === 'true';
 
+        // Instagram-style clean Anonymous Default Profile Picture (SVG Data URI)
+        const DEFAULT_PFP = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%2327272a'/><circle cx='50' cy='38' r='18' fill='%23a1a1aa'/><path d='M50 62c-20 0-32 10-32 16v6h64v-6c0-6-12-16-32-16z' fill='%23a1a1aa'/></svg>";
+
         // 🚀 INSTANT LOAD ON STARTUP
         window.onload = function() {
             if (!myChatId) { window.location.href = "index.html"; return; }
@@ -365,7 +368,7 @@
                     document.getElementById('accountUsername').value = data.username || myUsername;
                     document.getElementById('accountBio').value = data.bio || "";
                     document.getElementById('displayChatId').innerText = myChatId;
-                    if (data.pfp) document.getElementById('myProfilePic').src = data.pfp;
+                    document.getElementById('myProfilePic').src = data.pfp || DEFAULT_PFP;
                     
                     loadRealtimeChats();
                 }
@@ -415,7 +418,6 @@
                 document.getElementById('chatsCountNum').innerText = chatList.length;
                 chatList.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-                let renderedHTML = '';
                 let promises = chatList.map(chatData => {
                     return database.ref(`users/${chatData.id}`).once('value').then(userSnap => {
                         if(userSnap.exists()) {
@@ -425,7 +427,6 @@
                 });
 
                 Promise.all(promises).then(() => {
-                    // Save rendered chats HTML to cache for instant load next time
                     localStorage.setItem('fast_cached_chats', activeArea.innerHTML.replace('<span class="section-title">Recent Chats</span>', ''));
                 });
 
@@ -477,15 +478,16 @@
             let displayMsg = isSuggestion ? (userData.bio || 'Tap to start chat') : (chatMeta.lastMsg || 'Tap to chat');
             let isUnread = chatMeta && chatMeta.unread;
             let msgClass = isUnread ? "unread-text" : "";
+            let userPfp = userData.pfp ? userData.pfp : DEFAULT_PFP;
 
             item.innerHTML = `
-                <img src="${userData.pfp || 'https://via.placeholder.com/52/27272a/38bdf8?text=PFP'}" class="avatar">
+                <img src="${userPfp}" class="avatar">
                 <div class="user-info">
                     <h4>${userData.username || 'Anonymous'}</h4>
                     <p class="${msgClass}">${displayMsg}</p>
                 </div>
             `;
-            item.onclick = () => openChatRoom(targetId, userData.username || 'User', userData.pfp || '');
+            item.onclick = () => openChatRoom(targetId, userData.username || 'User', userPfp);
             container.appendChild(item);
         }
 
@@ -521,14 +523,16 @@
 
         // --- CHAT ROOM ---
         function openChatRoom(targetId, targetName, targetPfp) {
-            currentChatUser = { id: targetId, name: targetName, pfp: targetPfp || 'https://via.placeholder.com/40/eee/000?text=PFP' };
+            currentChatUser = { id: targetId, name: targetName, pfp: targetPfp || DEFAULT_PFP };
             
             document.getElementById('activeChatName').innerText = targetName;
             document.getElementById('activeChatIdDisplay').innerText = "@" + targetId;
             document.getElementById('activeChatAvatar').src = currentChatUser.pfp;
             
             document.getElementById('chatRoom').classList.add('active');
-            database.ref(`user_chats/${myChatId}/${targetId}`).update({ unread: false });
+            
+            // NOTE: Yaha se database update hata diya hai taaki sirf chat kholne par chat top me na aaye (sirf message bhejnewale par aaye)
+            
             listenToMessages(targetId);
 
             setTimeout(() => { document.getElementById('msgInput').focus(); }, 350);
@@ -589,9 +593,11 @@
                 });
                 msgContainer.scrollTop = msgContainer.scrollHeight;
                 
-                if(currentChatUser && currentChatUser.id === targetId) {
-                    database.ref(`user_chats/${myChatId}/${targetId}`).update({ unread: false });
-                }
+                // Clear unread indicator when inside the active chat
+                database.ref(`user_chats/${myChatId}/${targetId}`).child('unread').transaction(current => {
+                    if (current === true) return false;
+                    return current;
+                });
             });
         }
 
