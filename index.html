@@ -2,11 +2,9 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#09090b">
-    <title>ANJAY SMS - Private Chat | Anonymous Messaging</title>
-    <meta name="description" content="ANJAY SMS ek private aur anonymous chat platform hai.">
-    
+    <title>ANJAY SMS - Private Chat</title>
     <style>
         * {
             box-sizing: border-box;
@@ -19,10 +17,11 @@
 
         html, body {
             width: 100%;
-            height: 100%;
+            min-height: 100vh; /* Perfect for all devices */
             background: #09090b;
             color: #ffffff;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto; /* Scroll if needed */
         }
 
         body {
@@ -33,16 +32,15 @@
 
         .app-card {
             width: 100%;
-            height: 100dvh; /* FIX: Dynamic Viewport Height */
+            min-height: 100vh; /* Fills entire screen height */
             background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #09090b 70%);
-            padding: 32px 24px;
+            padding: 30px 24px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
             text-align: center;
             position: relative;
-            overflow: hidden;
         }
 
         .top-section {
@@ -50,7 +48,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .logo {
@@ -64,7 +62,7 @@
         }
 
         .app-name {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 800;
             letter-spacing: 2px;
             background: linear-gradient(135deg, #38bdf8, #818cf8, #a78bfa);
@@ -74,32 +72,34 @@
         }
 
         .privacy-badge {
-            margin-top: 6px;
+            margin-top: 8px;
             background: rgba(16,185,129,.1);
             color: #10b981;
-            padding: 4px 12px;
+            padding: 5px 14px;
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             border: 1px solid rgba(16,185,129,.2);
         }
 
         .content-box {
-            min-height: 120px;
+            min-height: 140px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             width: 100%;
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
-        .feature-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; color: #f8fafc; }
-        .feature-desc { font-size: 14px; color: #94a3b8; line-height: 1.5; padding: 0 10px; }
+        .feature-title { font-size: 22px; font-weight: 800; margin-bottom: 12px; color: #f8fafc; }
+        .feature-desc { font-size: 15px; color: #94a3b8; line-height: 1.6; padding: 0 15px; }
 
         .dots-container {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             justify-content: center;
         }
 
@@ -122,10 +122,11 @@
             display: none;
             flex-direction: column;
             gap: 12px;
+            margin-bottom: 20px;
         }
 
         .input-group label {
-            font-size: 11px;
+            font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #94a3b8;
@@ -176,7 +177,7 @@
         .btn:disabled { opacity: .6; }
 
         .custom-alert {
-            position: absolute;
+            position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             background: rgba(0,0,0,.8);
@@ -202,7 +203,7 @@
 
         #loadingBox {
             display: none;
-            position: absolute;
+            position: fixed;
             inset: 0;
             background: #09090b;
             z-index: 200;
@@ -252,7 +253,7 @@
         <button id="forgotBtn" onclick="forgotPassword()" style="background:none; border:none; color:#38bdf8; font-size:13px; text-decoration:underline; cursor:pointer; margin-top:8px; display:none;">Forgot Private Key?</button>
     </div>
 
-    <div style="width:100%;">
+    <div style="width:100%; margin-bottom: 30px;">
         <div class="dots-container" id="dotsContainer">
             <div class="dot active"></div>
             <div class="dot"></div>
