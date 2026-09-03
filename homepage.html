@@ -1,1144 +1,673 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-      maximum-scale=1.0, user-scalable=no,
-      viewport-fit=cover">
-
-<meta name="theme-color" content="#09090b">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-
-<title>ANJAY - Chat</title>
-
-<style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    font-family:Inter,Arial,sans-serif;
-    -webkit-tap-highlight-color:transparent;
-}
-
-html,body{
-    width:100%;
-    height:100%;
-    min-height:100%;
-    background:#09090b;
-    color:#fff;
-    overflow:hidden;
-}
-
-body{
-    position:fixed;
-    inset:0;
-}
-
-button,
-input,
-textarea{
-    font-family:inherit;
-}
-
-button{
-    -webkit-appearance:none;
-}
-
-.app-card{
-    width:100%;
-    height:100%;
-    min-height:100%;
-    background:
-        radial-gradient(
-            circle at 50% 0%,
-            #1e1b4b 0%,
-            #09090b 60%
-        );
-    display:flex;
-    flex-direction:column;
-    position:relative;
-    overflow:hidden;
-}
-
-/* =========================
-   MAIN TABS
-========================= */
-
-.tab-content{
-    flex:1;
-    min-height:0;
-    overflow-y:auto;
-    overflow-x:hidden;
-    padding:16px;
-    display:none;
-    flex-direction:column;
-    gap:12px;
-    -webkit-overflow-scrolling:touch;
-}
-
-.tab-content.active{
-    display:flex;
-}
-
-/* =========================
-   HEADER / SEARCH
-========================= */
-
-.app-header{
-    padding:14px 16px;
-    border-bottom:1px solid rgba(255,255,255,.05);
-    background:rgba(15,15,18,.90);
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.search-box{
-    position:relative;
-    flex:1;
-}
-
-.search-box input{
-    width:100%;
-    padding:11px 16px 11px 40px;
-    border-radius:14px;
-    border:1px solid rgba(255,255,255,.08);
-    background:rgba(0,0,0,.45);
-    color:#fff;
-    font-size:14px;
-    outline:none;
-}
-
-.search-box input:focus{
-    border-color:rgba(56,189,248,.4);
-}
-
-.search-box input::placeholder{
-    color:#64748b;
-}
-
-.search-icon{
-    position:absolute;
-    left:13px;
-    top:50%;
-    transform:translateY(-50%);
-    color:#94a3b8;
-    font-size:15px;
-}
-
-/* =========================
-   TITLES
-========================= */
-
-.section-title{
-    font-size:13px;
-    color:#94a3b8;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:.5px;
-}
-
-/* =========================
-   USER CARD
-========================= */
-
-.user-item{
-    display:flex;
-    align-items:center;
-    gap:14px;
-    padding:12px;
-    background:rgba(255,255,255,.035);
-    border:1px solid rgba(255,255,255,.06);
-    border-radius:16px;
-    cursor:pointer;
-    width:100%;
-    min-height:76px;
-    transition:background .15s ease;
-}
-
-.user-item:active{
-    background:rgba(56,189,248,.10);
-    transform:scale(.99);
-}
-
-.avatar{
-    width:52px;
-    height:52px;
-    border-radius:50%;
-    object-fit:cover;
-    background:#27272a;
-    flex-shrink:0;
-}
-
-.user-info{
-    flex:1;
-    min-width:0;
-}
-
-.user-info h4{
-    font-size:15px;
-    color:#f8fafc;
-    font-weight:700;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-.user-info p{
-    font-size:12px;
-    color:#94a3b8;
-    margin-top:4px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-.unread-text{
-    font-weight:800;
-    color:#fff!important;
-}
-
-/* =========================
-   SUGGESTIONS
-========================= */
-
-.suggestions-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin:10px 0 8px;
-}
-
-.hide-all-btn{
-    background:none;
-    border:none;
-    color:#ef4444;
-    font-size:17px;
-    cursor:pointer;
-    padding:4px 6px;
-}
-
-/* =========================
-   SETTINGS
-========================= */
-
-.settings-group{
-    background:rgba(255,255,255,.035);
-    border:1px solid rgba(255,255,255,.06);
-    border-radius:16px;
-    padding:8px;
-    display:flex;
-    flex-direction:column;
-    gap:4px;
-}
-
-.setting-item{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:15px 14px;
-    border-radius:12px;
-    cursor:pointer;
-    color:#e2e8f0;
-    font-size:14px;
-    font-weight:600;
-}
-
-.setting-item:active{
-    background:rgba(255,255,255,.06);
-}
-
-/* =========================
-   BOTTOM NAV
-========================= */
-
-.nav-bar{
-    height:65px;
-    min-height:65px;
-    background:rgba(15,15,18,.97);
-    border-top:1px solid rgba(255,255,255,.08);
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-    z-index:20;
-    padding-bottom:env(safe-area-inset-bottom);
-}
-
-.nav-item{
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:3px;
-    color:#94a3b8;
-    cursor:pointer;
-    font-size:11px;
-    font-weight:700;
-    background:none;
-    border:none;
-    flex:1;
-}
-
-.nav-item svg{
-    width:20px;
-    height:20px;
-    stroke:currentColor;
-    stroke-width:2;
-    fill:none;
-}
-
-.nav-item.active{
-    color:#38bdf8;
-}
-
-/* =========================
-   CHAT ROOM
-========================= */
-
-.chat-room{
-    position:absolute;
-    top:0;
-    left:100%;
-    width:100%;
-    height:100%;
-    background:#fdfafb;
-    color:#000;
-    display:flex;
-    flex-direction:column;
-    z-index:50;
-    transition:left .22s ease;
-    will-change:left;
-}
-
-.chat-room.active{
-    left:0;
-}
-
-.chat-room-header{
-    min-height:65px;
-    padding:
-        8px
-        14px
-        8px
-        10px;
-    background:#fff;
-    border-bottom:1px solid #eee;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding-top:max(8px, env(safe-area-inset-top));
-}
-
-.header-left-part{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    cursor:pointer;
-    min-width:0;
-}
-
-.back-btn{
-    background:none;
-    border:none;
-    color:#000;
-    font-size:35px;
-    line-height:1;
-    width:32px;
-    height:42px;
-    cursor:pointer;
-}
-
-.chat-room-header .avatar{
-    width:40px;
-    height:40px;
-    border:1px solid #eee;
-}
-
-.chat-header-names{
-    min-width:0;
-}
-
-.chat-header-names h4{
-    font-size:15px;
-    color:#000;
-    font-weight:800;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    max-width:170px;
-}
-
-.chat-header-names p{
-    font-size:11px;
-    color:#888;
-    margin-top:2px;
-}
-
-.header-action-icons{
-    display:flex;
-    gap:16px;
-    color:#000;
-    align-items:center;
-}
-
-.header-action-icons svg{
-    width:21px;
-    height:21px;
-    cursor:pointer;
-}
-
-/* =========================
-   MESSAGES
-========================= */
-
-.chat-messages{
-    flex:1;
-    min-height:0;
-    padding:16px 12px;
-    overflow-y:auto;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    background:#fdfafb;
-    -webkit-overflow-scrolling:touch;
-}
-
-.msg-row{
-    display:flex;
-    align-items:flex-end;
-    gap:7px;
-    max-width:82%;
-}
-
-.msg-row.me-row{
-    align-self:flex-end;
-    flex-direction:row-reverse;
-}
-
-.msg-row.heshe-row{
-    align-self:flex-start;
-}
-
-.msg-avatar{
-    width:25px;
-    height:25px;
-    border-radius:50%;
-    object-fit:cover;
-    flex-shrink:0;
-}
-
-.msg-bubble{
-    padding:10px 14px;
-    font-size:14.5px;
-    line-height:1.4;
-    word-break:break-word;
-    white-space:pre-wrap;
-    box-shadow:0 1px 2px rgba(0,0,0,.06);
-    user-select:text;
-}
-
-.msg-bubble.me{
-    background:#f9196b;
-    color:#fff;
-    border-radius:20px;
-    border-bottom-right-radius:4px;
-}
-
-.msg-bubble.heshe{
-    background:#fff;
-    color:#000;
-    border:1px solid #f0f0f0;
-    border-radius:20px;
-    border-bottom-left-radius:4px;
-}
-
-/* =========================
-   INPUT
-========================= */
-
-.chat-input-area{
-    padding:
-        9px
-        12px
-        max(12px, env(safe-area-inset-bottom));
-    background:#fff;
-    border-top:1px solid #f0f0f0;
-    display:flex;
-    align-items:center;
-}
-
-.input-pill{
-    flex:1;
-    display:flex;
-    align-items:center;
-    background:#f1f2f6;
-    border-radius:30px;
-    padding:4px 8px 4px 7px;
-    gap:8px;
-}
-
-.input-pill .cam-icon{
-    background:#f9196b;
-    color:#fff;
-    width:32px;
-    height:32px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:15px;
-    flex-shrink:0;
-}
-
-.input-pill input{
-    flex:1;
-    min-width:0;
-    border:none;
-    background:transparent;
-    color:#000;
-    font-size:15px;
-    padding:9px 0;
-    outline:none;
-}
-
-.input-pill input::placeholder{
-    color:#777;
-}
-
-.send-airplane-btn{
-    background:none;
-    border:none;
-    color:#f9196b;
-    font-size:25px;
-    cursor:pointer;
-    padding:4px 7px;
-    transform:rotate(45deg);
-}
-
-/* =========================
-   CONTEXT MENU
-========================= */
-
-.context-menu{
-    position:fixed;
-    background:#27272a;
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:12px;
-    padding:7px;
-    display:none;
-    z-index:1000;
-    box-shadow:0 10px 25px rgba(0,0,0,.5);
-    flex-direction:column;
-    gap:4px;
-    width:125px;
-}
-
-.context-menu button{
-    background:none;
-    border:none;
-    color:#fff;
-    padding:10px;
-    text-align:left;
-    border-radius:8px;
-    cursor:pointer;
-    font-size:13px;
-}
-
-.context-menu button:active{
-    background:rgba(255,255,255,.1);
-}
-
-/* =========================
-   PROFILE
-========================= */
-
-.instagram-profile{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-    padding-top:10px;
-}
-
-.profile-header-insta{
-    display:flex;
-    align-items:center;
-    gap:20px;
-}
-
-.insta-avatar{
-    width:85px;
-    height:85px;
-    border-radius:50%;
-    object-fit:cover;
-    border:2px solid #38bdf8;
-    cursor:pointer;
-    background:#27272a;
-}
-
-.insta-stats{
-    display:flex;
-    gap:20px;
-    flex:1;
-    justify-content:space-around;
-    text-align:center;
-}
-
-.stat-box h3{
-    font-size:18px;
-    font-weight:800;
-    color:#f8fafc;
-}
-
-.stat-box p{
-    font-size:11px;
-    color:#94a3b8;
-}
-
-.chat-id-box{
-    background:rgba(0,0,0,.3);
-    border:1px solid rgba(255,255,255,.08);
-    padding:12px;
-    border-radius:14px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.copy-btn{
-    background:#38bdf8;
-    color:#09090b;
-    border:none;
-    padding:7px 12px;
-    border-radius:8px;
-    font-weight:800;
-    font-size:11px;
-    cursor:pointer;
-}
-
-.edit-profile-form{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    margin-top:5px;
-}
-
-.edit-profile-form label{
-    font-size:11px;
-    color:#94a3b8;
-    text-transform:uppercase;
-    font-weight:700;
-}
-
-.edit-profile-form input,
-.edit-profile-form textarea{
-    width:100%;
-    padding:12px;
-    border-radius:12px;
-    border:1px solid rgba(255,255,255,.1);
-    background:rgba(0,0,0,.4);
-    color:#fff;
-    font-size:14px;
-    outline:none;
-    resize:none;
-}
-
-.action-btn{
-    background:#38bdf8;
-    border:none;
-    padding:14px;
-    border-radius:10px;
-    font-weight:800;
-    color:#09090b;
-    cursor:pointer;
-    font-size:12px;
-}
-
-/* =========================
-   LOADING
-========================= */
-
-.fast-loading{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    color:#64748b;
-    font-size:12px;
-}
-
-.empty-state{
-    text-align:center;
-    color:#64748b;
-    font-size:12px;
-    padding:20px 5px;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:380px){
-    .user-item{
-        padding:10px;
-    }
-
-    .avatar{
-        width:48px;
-        height:48px;
-    }
-
-    .chat-header-names h4{
-        max-width:130px;
-    }
-
-    .header-action-icons{
-        gap:10px;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ANJAY - Homepage</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* FIX: Height aur Overflow set kiya */
+        html, body {
+            width: 100%;
+            min-height: 100vh; /* Puri screen bharne ke liye */
+            background: #09090b;
+            background-image: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #09090b 70%);
+            color: #ffffff;
+            overflow-y: auto; /* Scroll allow kiya */
+            overflow-x: hidden;
+            /* position: fixed; HATA DIYA */
+        }
+
+        .app-card {
+            width: 100%;
+            min-height: 100dvh; /* Mobile ke liye perfect height */
+            height: auto;
+            background: rgba(24, 24, 27, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Header & Search */
+        .app-header {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(15, 15, 18, 0.85);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 16px 10px 38px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px; }
+
+        /* Main Content Area */
+        .tab-content {
+            flex: 1; overflow-y: auto; padding: 16px; display: none; flex-direction: column; gap: 12px;
+        }
+        .tab-content.active { display: flex; }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 13px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        /* User Item Card */
+        .user-item {
+            display: flex; align-items: center; gap: 14px; padding: 12px;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px; cursor: pointer; transition: 0.2s; width: 100%;
+        }
+        .user-item:hover { background: rgba(56, 189, 248, 0.08); }
+
+        .avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; background: #27272a; flex-shrink: 0; }
+        .user-info { flex: 1; overflow: hidden; }
+        .user-info h4 { font-size: 15px; color: #f8fafc; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-info p { font-size: 12px; color: #94a3b8; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .unread-text { font-weight: 800; color: #f8fafc !important; }
+
+        /* Suggestions Header */
+        .suggestions-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; margin-top: 10px;
+        }
+        .hide-all-btn { background: none; border: none; color: #ef4444; font-size: 18px; cursor: pointer; padding: 0 5px; }
+
+        /* Settings Card & Buttons */
+        .settings-group {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px; padding: 8px; display: flex; flex-direction: column; gap: 4px;
+        }
+        .setting-item {
+            display: flex; justify-content: space-between; align-items: center; padding: 14px;
+            border-radius: 12px; cursor: pointer; color: #e2e8f0; font-size: 14px; font-weight: 500;
+        }
+        .setting-item:hover { background: rgba(255, 255, 255, 0.05); }
+
+        /* Bottom Navigation Bar (4 Tabs) */
+        .nav-bar {
+            height: 65px; background: rgba(15, 15, 18, 0.95); border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex; justify-content: space-around; align-items: center; z-index: 10;
+        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; color: #94a3b8; cursor: pointer; font-size: 11px; font-weight: 600; background: none; border: none; flex: 1; }
+        .nav-item svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; }
+        .nav-item.active { color: #38bdf8; }
+        .nav-item.active svg { stroke: #38bdf8; }
+
+        /* Light Chat Room View Overlay */
+        .chat-room {
+            position: absolute; top: 0; left: 100%; width: 100%; height: 100%;
+            background: #fcfcfc; display: flex; flex-direction: column; z-index: 50; transition: left 0.3s ease-in-out;
+        }
+        .chat-room.active { left: 0; }
+
+        .chat-room-header {
+            padding: 12px 16px; background: #ffffff; border-bottom: 1px solid #f0f0f0;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .header-left-part { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .back-btn { background: none; border: none; color: #000; font-size: 24px; cursor: pointer; }
+        .chat-room-header .avatar { width: 40px; height: 40px; border: 1px solid #eee; }
+        .chat-header-names h4 { font-size: 15px; color: #000; font-weight: 700; }
+        .chat-header-names p { font-size: 11px; color: #888; margin-top: 2px; }
+
+        .header-action-icons { display: flex; gap: 18px; color: #000; align-items: center; }
+        .header-action-icons svg { width: 22px; height: 22px; cursor: pointer; }
+
+        .chat-messages {
+            flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
+            background: #fdfafb;
+        }
+
+        .msg-row { display: flex; align-items: flex-end; gap: 8px; max-width: 80%; }
+        .msg-row.me-row { align-self: flex-end; flex-direction: row-reverse; }
+        .msg-row.heshe-row { align-self: flex-start; }
+        .msg-avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+
+        .msg-bubble {
+            padding: 10px 14px; font-size: 14.5px; line-height: 1.4; word-break: break-word;
+            position: relative; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .msg-bubble.me { background: #f9196b; color: white; border-radius: 20px; border-bottom-right-radius: 4px; }
+        .msg-bubble.heshe { background: #ffffff; color: #000000; border: 1px solid #f0f0f0; border-radius: 20px; border-bottom-left-radius: 4px; }
+
+        /* Input Area with Airplane Send */
+        .chat-input-area { padding: 10px 16px 15px 16px; background: #ffffff; border-top: 1px solid #f0f0f0; display: flex; align-items: center; }
+        .input-pill { flex: 1; display: flex; align-items: center; background: #f1f2f6; border-radius: 30px; padding: 4px 16px; gap: 10px; }
+        .input-pill .cam-icon { background: #f9196b; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; cursor: pointer; }
+        .input-pill input { flex: 1; border: none; background: transparent; color: #000; font-size: 15px; padding: 10px 0; outline: none; }
+        .send-airplane-btn { background: none; border: none; color: #f9196b; font-size: 24px; cursor: pointer; padding-left: 8px; transform: rotate(45deg); }
+
+        /* Context Menu (Edit / Delete) */
+        .context-menu {
+            position: fixed; background: #27272a; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; padding: 8px; display: none; z-index: 1000; box-shadow: 0 10px 25px rgba(0,0,0,0.5); flex-direction: column; gap: 5px; width: 120px;
+        }
+        .context-menu button { background: none; border: none; color: white; padding: 10px; text-align: left; border-radius: 8px; cursor: pointer; font-size: 13px; }
+        .context-menu button:hover { background: rgba(255,255,255,0.1); }
+
+        /* Account / Instagram Style */
+        .instagram-profile { display: flex; flex-direction: column; gap: 20px; padding-top: 10px; }
+        .profile-header-insta { display: flex; align-items: center; gap: 20px; }
+        .insta-avatar { width: 85px; height: 85px; border-radius: 50%; object-fit: cover; border: 2px solid #38bdf8; cursor: pointer; }
+        .insta-stats { display: flex; gap: 20px; flex: 1; justify-content: space-around; text-align: center; }
+        .stat-box h3 { font-size: 18px; font-weight: 800; color: #f8fafc; }
+        .stat-box p { font-size: 11px; color: #94a3b8; }
+        .chat-id-box { background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.08); padding: 12px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center; }
+        .copy-btn { background: #38bdf8; color: #09090b; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 11px; cursor: pointer; }
+        .edit-profile-form { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+        .edit-profile-form label { font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 600; }
+        .edit-profile-form input, .edit-profile-form textarea { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.4); color: white; font-size: 14px; outline: none; }
+        .action-btn { background: #38bdf8; border: none; padding: 14px; border-radius: 10px; font-weight: 700; color: #09090b; cursor: pointer; font-size: 12px; }
+    </style>
 </head>
+<body onclick="closeContextMenu()">
 
-<body>
-
-<div class="app-card">
-
-    <!-- =========================
-         CHATS TAB
-    ========================== -->
-
-    <div id="chatsTab" class="tab-content active">
-
-        <div class="app-header"
-             style="margin:-16px -16px 12px -16px;">
-
-            <div class="search-box">
-                <span class="search-icon">🔍</span>
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Search chats or users..."
-                    autocomplete="off"
-                    oninput="searchUsers(this.value)"
-                >
+    <div class="app-card">
+        <!-- TAB 1: CHATS -->
+        <div id="chatsTab" class="tab-content active">
+            <div class="app-header" style="margin: -16px -16px 12px -16px;">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Search chats or users..." oninput="searchUsers(this.value)">
+                </div>
             </div>
-
-        </div>
-
-        <div id="activeChatsArea">
-            <div class="fast-loading">
-                Loading chats...
+            
+            <div id="activeChatsArea"></div>
+            
+            <div id="suggestionsWrapper">
+                <div class="suggestions-header">
+                    <span class="section-title">Suggestions</span>
+                    <button class="hide-all-btn" title="Remove suggestions" onclick="hideAllSuggestions()">✖</button>
+                </div>
+                <div id="chatListArea" style="display:flex; flex-direction:column; gap:10px;"></div>
             </div>
         </div>
 
-        <div id="suggestionsWrapper">
-
-            <div class="suggestions-header">
-
-                <span
-                    class="section-title"
-                    id="suggestionsTitle">
-                    Suggestions
-                </span>
-
-                <button
-                    class="hide-all-btn"
-                    title="Remove suggestions"
-                    onclick="hideAllSuggestions()">
-                    ✖
-                </button>
-
+        <!-- TAB 2: FRIENDS -->
+        <div id="friendsTab" class="tab-content">
+            <h3 style="font-size:18px; margin-bottom:10px;">Friends</h3>
+            <div class="settings-group">
+                <div class="setting-item" onclick="alert('Friend requests coming soon!')">
+                    <span>👥 Friend Requests</span>
+                    <span style="color:#38bdf8;">0 Pending</span>
+                </div>
+                <div class="setting-item" onclick="switchTab('chats', document.querySelectorAll('.nav-item')[0])">
+                    <span>➕ Add New Friends</span>
+                    <span>🔍</span>
+                </div>
             </div>
-
-            <div
-                id="chatListArea"
-                style="
-                    display:flex;
-                    flex-direction:column;
-                    gap:10px;
-                ">
+            
+            <span class="section-title" style="margin-top:15px;">Your Friend List</span>
+            <div id="friendsListArea" style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+                <p style="color:#64748b; font-size:12px;">Active chats are automatically in your friends list.</p>
             </div>
-
         </div>
 
-    </div>
-
-
-    <!-- =========================
-         FRIENDS TAB
-    ========================== -->
-
-    <div id="friendsTab" class="tab-content">
-
-        <h3 style="font-size:18px;margin-bottom:10px;">
-            Friends
-        </h3>
-
-        <div class="settings-group">
-
-            <div
-                class="setting-item"
-                onclick="showMessage('Friend requests coming soon!')">
-
-                <span>👥 Friend Requests</span>
-
-                <span style="color:#38bdf8;">
-                    0 Pending
-                </span>
-
+        <!-- TAB 3: SETTINGS -->
+        <div id="settingsTab" class="tab-content">
+            <h3 style="font-size:18px; margin-bottom:10px;">Settings</h3>
+            <div class="settings-group">
+                <div class="setting-item" onclick="alert('Notifications are enabled by default')">
+                    <span>🔔 Notifications</span>
+                    <span style="color:#10b981;">On</span>
+                </div>
+                <div class="setting-item" onclick="resetSuggestions()">
+                    <span>🔄 Restore Hidden Suggestions</span>
+                    <span>›</span>
+                </div>
+                <div class="setting-item" onclick="clearLocalAppCache()">
+                    <span>⚡ Clear App Cache (Speed up)</span>
+                    <span>›</span>
+                </div>
             </div>
-
-            <div
-                class="setting-item"
-                onclick="switchToChats()">
-
-                <span>➕ Add New Friends</span>
-
-                <span>🔍</span>
-
-            </div>
-
         </div>
 
-        <span
-            class="section-title"
-            style="margin-top:15px;">
-            Your Friend List
-        </span>
-
-        <div
-            id="friendsListArea"
-            style="
-                display:flex;
-                flex-direction:column;
-                gap:10px;
-                margin-top:8px;
-            ">
-
-            <p style="color:#64748b;font-size:12px;">
-                Active chats are automatically in your friends list.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         SETTINGS TAB
-    ========================== -->
-
-    <div id="settingsTab" class="tab-content">
-
-        <h3 style="font-size:18px;margin-bottom:10px;">
-            Settings
-        </h3>
-
-        <div class="settings-group">
-
-            <div
-                class="setting-item"
-                onclick="showMessage('Notifications are enabled by default')">
-
-                <span>🔔 Notifications</span>
-
-                <span style="color:#10b981;">
-                    On
-                </span>
-
-            </div>
-
-            <div
-                class="setting-item"
-                onclick="resetSuggestions()">
-
-                <span>🔄 Restore Hidden Suggestions</span>
-
-                <span>›</span>
-
-            </div>
-
-            <div
-                class="setting-item"
-                onclick="clearLocalAppCache()">
-
-                <span>⚡ Clear App Cache</span>
-
-                <span>›</span>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         ACCOUNT TAB
-    ========================== -->
-
-    <div id="accountTab" class="tab-content">
-
-        <div class="instagram-profile">
-
-            <div class="profile-header-insta">
-
-                <img
-                    id="myProfilePic"
-                    src="https://via.placeholder.com/85/27272a/38bdf8?text=PFP"
-                    class="insta-avatar"
-                    onclick="triggerPfpUpload()"
-                >
-
-                <input
-                    type="file"
-                    id="pfpFileInput"
-                    style="display:none;"
-                    accept="image/*"
-                    onchange="uploadProfilePic(this)"
-                >
-
-                <div class="insta-stats">
-
-                    <div class="stat-box">
-
-                        <h3 id="chatsCountNum">
-                            0
-                        </h3>
-
-                        <p>Chats</p>
-
+        <!-- TAB 4: ACCOUNT ("Me") -->
+        <div id="accountTab" class="tab-content">
+            <div class="instagram-profile">
+                <div class="profile-header-insta">
+                    <img id="myProfilePic" src="https://via.placeholder.com/85/27272a/38bdf8?text=PFP" class="insta-avatar" onclick="triggerPfpUpload()">
+                    <input type="file" id="pfpFileInput" style="display: none;" accept="image/*" onchange="uploadProfilePic(this)">
+                    <div class="insta-stats">
+                        <div class="stat-box">
+                            <h3 id="chatsCountNum">0</h3><p>Chats</p>
+                        </div>
                     </div>
-
                 </div>
-
-            </div>
-
-
-            <div class="chat-id-box">
-
-                <div>
-
-                    <p style="
-                        font-size:10px;
-                        color:#94a3b8;
-                    ">
-                        YOUR CHAT ID
-                    </p>
-
-                    <h4
-                        id="displayChatId"
-                        style="
-                            font-size:15px;
-                            font-family:monospace;
-                            color:#38bdf8;
-                        ">
-                        ------
-                    </h4>
-
+                <div class="chat-id-box">
+                    <div>
+                        <p style="font-size: 10px; color: #94a3b8;">YOUR CHAT ID</p>
+                        <h4 id="displayChatId" style="font-size: 15px; font-family: monospace; color: #38bdf8;">------</h4>
+                    </div>
+                    <button class="copy-btn" onclick="copyMyChatId()">Copy</button>
                 </div>
-
-                <button
-                    class="copy-btn"
-                    onclick="copyMyChatId()">
-                    Copy
-                </button>
-
+                <div class="edit-profile-form">
+                    <label>Username</label><input type="text" id="accountUsername">
+                    <label>Bio</label><textarea id="accountBio"></textarea>
+                    <button class="action-btn" onclick="updateProfileData()">Save Changes</button>
+                </div>
+                <button class="action-btn" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; margin-top:10px;" onclick="logoutUser()">Log Out</button>
             </div>
-
-
-            <div class="edit-profile-form">
-
-                <label>Username</label>
-
-                <input
-                    type="text"
-                    id="accountUsername"
-                    autocomplete="off"
-                >
-
-                <label>Bio</label>
-
-                <textarea
-                    id="accountBio"
-                    rows="3">
-                </textarea>
-
-                <button
-                    class="action-btn"
-                    onclick="updateProfileData()">
-                    Save Changes
-                </button>
-
-            </div>
-
-
-            <button
-                class="action-btn"
-                style="
-                    background:rgba(239,68,68,.15);
-                    color:#ef4444;
-                    margin-top:10px;
-                "
-                onclick="logoutUser()">
-
-                Log Out
-
-            </button>
-
         </div>
 
+        <!-- BOTTOM NAVIGATION (4 Options Restored) -->
+        <div class="nav-bar">
+            <button class="nav-item active" onclick="switchTab('chats', this)">
+                <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> Chat
+            </button>
+            <button class="nav-item" onclick="switchTab('friends', this)">
+                <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Friends
+            </button>
+            <button class="nav-item" onclick="switchTab('settings', this)">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> Setting
+            </button>
+            <button class="nav-item" onclick="switchTab('account', this)">
+                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Account
+            </button>
+        </div>
+
+        <!-- LIGHT CHAT ROOM OVERLAY -->
+        <div id="chatRoom" class="chat-room">
+            <div class="chat-room-header">
+                <div class="header-left-part" onclick="closeChatRoom()">
+                    <button class="back-btn">‹</button>
+                    <img id="activeChatAvatar" src="" class="avatar">
+                    <div class="chat-header-names">
+                        <h4 id="activeChatName"></h4>
+                        <p id="activeChatIdDisplay"></p>
+                    </div>
+                </div>
+                <div class="header-action-icons">
+                    <svg onclick="alert('Voice Call coming soon...')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    <svg onclick="alert('Video Call coming soon...')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                </div>
+            </div>
+
+            <div id="chatMessages" class="chat-messages"></div>
+            
+            <div class="chat-input-area">
+                <div class="input-pill">
+                    <div class="cam-icon">📷</div>
+                    <input type="text" id="msgInput" placeholder="Message..." autocomplete="off">
+                    <button class="send-airplane-btn" onclick="sendMessage()">➤</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Context Menu -->
+        <div id="contextMenu" class="context-menu">
+            <button onclick="triggerEditMessage()">✏️ Edit</button>
+            <button onclick="triggerDeleteMessage()" style="color: #ef4444;">🗑️ Delete</button>
+        </div>
     </div>
 
+    <!-- Firebase SDK v8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-    <!-- =========================
-         BOTTOM NAV
-    ========================== -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAJBgC-DTaoKdg_hmnxMAMPM-0tIQ999Js",
+            authDomain: "anjay-sms-d7930.firebaseapp.com",
+            databaseURL: "https://anjay-sms-d7930-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "anjay-sms-d7930",
+            storageBucket: "anjay-sms-d7930.firebasestorage.app",
+            messagingSenderId: "726689670179",
+            appId: "1:726689670179:web:5ffb3e1f43ccd95db0bd96"
+        };
 
-    <div class="nav-bar">
+        // FIX: Firebase initialize check
+        let database = null;
+        try {
+            if (typeof firebase !== "undefined" && !firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+                database = firebase.database();
+            }
+        } catch(error) {
+            console.error("Firebase init failed:", error);
+        }
 
-        <button
-            class="nav-item active"
-            onclick="switchTab('chats',this)">
+        const myChatId = localStorage.getItem('myChatId');
+        const myUsername = localStorage.getItem('myUsername');
+        let currentChatUser = null;
+        let pressTimer; let selectedMsgId = null; let selectedMsgText = "";
+        let isSuggestionsHidden = localStorage.getItem('hideAllSuggestionsFlag') === 'true';
 
-            <svg viewBox="0 0 24 24">
-                <path d="
-                    M21 15a2 2 0 0 1-2 2H7
-                    l-4 4V5a2 2 0 0 1 2-2h14
-                    a2 2 0 0 1 2 2z">
-                </path>
-            </svg>
+        // 🚀 INSTANT LOAD ON STARTUP (FIX: Fallback add kiya)
+        window.onload = function() {
+            if (!myChatId) { window.location.href = "index.html"; return; }
 
-            Chat
+            // Step 1: Render cached data instantly before waiting for Firebase
+            renderCachedChatsAndSuggestions();
 
-        </button>
+            // Step 2: Sync with Live Firebase Data
+            if (database) {
+                database.ref('users/' + myChatId).once('value').then(snapshot => {
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        document.getElementById('accountUsername').value = data.username || myUsername;
+                        document.getElementById('accountBio').value = data.bio || "";
+                        document.getElementById('displayChatId').innerText = myChatId;
+                        if (data.pfp) document.getElementById('myProfilePic').src = data.pfp;
+                        loadRealtimeChats();
+                    } else {
+                        // Agar user data nahi mila toh bhi suggestions dikhao
+                        loadSuggestions();
+                    }
+                }).catch(error => {
+                    console.error("Firebase read error:", error);
+                    loadSuggestions(); // Error aaya toh bhi blank screen nahi dikhegi
+                });
+            } else {
+                // Firebase hi load nahi hua toh bhi UI dikhao
+                loadSuggestions();
+            }
 
+            document.getElementById("msgInput").addEventListener("keypress", function(event) {
+                if (event.key === "Enter") { event.preventDefault(); sendMessage(); }
+            });
+        };
 
-        <button
-            class="nav-item"
-            onclick="switchTab('friends',this)">
+        // Render Cache Instantly (0 Delay)
+        function renderCachedChatsAndSuggestions() {
+            const cachedChats = localStorage.getItem('fast_cached_chats');
+            const cachedSugg = localStorage.getItem('fast_cached_sugg');
 
-            <svg viewBox="0 0 24 24">
+            if (cachedChats) {
+                document.getElementById('activeChatsArea').innerHTML = '<span class="section-title">Recent Chats</span>' + cachedChats;
+            }
+            if (cachedSugg && !isSuggestionsHidden) {
+                document.getElementById('chatListArea').innerHTML = cachedSugg;
+            }
+        }
 
-                <path d="
-                    M17 21v-2a4 4 0 0 0-4-4H5
-                    a4 4 0 0 0-4 4v2">
-                </path>
+        function switchTab(tabName, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            btnElement.classList.add('active');
+        }
 
-                <circle
-                    cx="9"
-                    cy="7"
-                    r="4">
-                </circle>
+        // --- Realtime Sync ---
+        function loadRealtimeChats() {
+            database.ref(`user_chats/${myChatId}`).on('value', snapshot => {
+                const activeArea = document.getElementById('activeChatsArea');
+                activeArea.innerHTML = '<span class="section-title">Recent Chats</span>';
+                
+                if(!snapshot.exists()){
+                    activeArea.innerHTML += '<p style="color:#64748b; font-size:12px; margin-top:8px;">No active chats yet.</p>';
+                    document.getElementById('chatsCountNum').innerText = "0";
+                    if(!isSuggestionsHidden) loadSuggestions();
+                    else document.getElementById('suggestionsWrapper').style.display = 'none';
+                    return;
+                }
 
-                <path d="
-                    M23 21v-2a4 4 0 0 0-3-3.87">
-                </path>
+                let chatList = [];
+                snapshot.forEach(child => { chatList.push({ id: child.key, ...child.val() }); });
+                document.getElementById('chatsCountNum').innerText = chatList.length;
+                chatList.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
 
-                <path d="
-                    M16 3.13a4 4 0 0 1 0 7.75">
-                </path>
+                let promises = chatList.map(chatData => {
+                    return database.ref(`users/${chatData.id}`).once('value').then(userSnap => {
+                        if(userSnap.exists()) {
+                            renderUserCard(chatData.id, userSnap.val(), activeArea, chatData);
+                        }
+                    });
+                });
 
-            </svg>
+                Promise.all(promises).then(() => {
+                    localStorage.setItem('fast_cached_chats', activeArea.innerHTML.replace('<span class="section-title">Recent Chats</span>', ''));
+                });
 
-            Friends
+                if(!isSuggestionsHidden) loadSuggestions(chatList.map(c => c.id));
+                else document.getElementById('suggestionsWrapper').style.display = 'none';
+            });
+        }
 
-        </button>
+        function loadSuggestions(existingChatIds = []) {
+            const listArea = document.getElementById('chatListArea');
+            document.getElementById('suggestionsWrapper').style.display = 'block';
+            listArea.innerHTML = '';
+            
+            database.ref('users').once('value').then(snapshot => {
+                snapshot.forEach(child => {
+                    const uKey = child.key;
+                    if (uKey !== myChatId && !existingChatIds.includes(uKey)) {
+                        renderUserCard(uKey, child.val(), listArea, null, true);
+                    }
+                });
+                localStorage.setItem('fast_cached_sugg', listArea.innerHTML);
+            });
+        }
 
+        function hideAllSuggestions() {
+            document.getElementById('suggestionsWrapper').style.display = 'none';
+            localStorage.setItem('hideAllSuggestionsFlag', 'true');
+            isSuggestionsHidden = true;
+        }
 
-        <button
-            class="nav-item"
-            onclick="switchTab('settings',this)">
+        function resetSuggestions() {
+            localStorage.removeItem('hideAllSuggestionsFlag');
+            isSuggestionsHidden = false;
+            loadRealtimeChats();
+            alert("Suggestions restored!");
+        }
 
-            <svg viewBox="0 0 24 24">
+        function clearLocalAppCache() {
+            localStorage.removeItem('fast_cached_chats');
+            localStorage.removeItem('fast_cached_sugg');
+            alert("Cache cleared! App will refresh.");
+            location.reload();
+        }
 
-                <circle
-                    cx="12"
-                    cy="12"
-                    r="3">
-                </circle>
+        function renderUserCard(targetId, userData, container, chatMeta = null, isSuggestion = false) {
+            const item = document.createElement('div');
+            item.className = 'user-item';
+            
+            let displayMsg = isSuggestion ? (userData.bio || 'Tap to start chat') : (chatMeta.lastMsg || 'Tap to chat');
+            let isUnread = chatMeta && chatMeta.unread;
+            let msgClass = isUnread ? "unread-text" : "";
 
-                <path d="
-                    M19.4 15a1.65 1.65 0 0 0
-                    .33 1.82l.06.06a2 2 0 0 1
-                    0 2.83 2 2 0 0 1-2.83 0l-.06-.06
-                    a1.65 1.65 0 0 0-1.82-.33
-                    1.65 1.65 0 0 0-1 1.51V21
-                    a2 2 0 0 1-2 2 2 2 0 0 1-2-2
-                    v-.09A1.65 1.65 0 0 0 9 19.4
-                    a1.65 1.65 0 0 0-1.82.33l-.06.06
-                    a2 2 0 0 1-2.83 0 2 2 0 0 1
-                    0-2.83l.06-.06a1.65 1.65 0 0 0
-                    .33-1.82 1.65 1.65 0 0 0-1.51-1H3
-                    a2 2 0 0 1-2-2 2 2 0 0 1 2-2
-                    h.09A1.65 1.65 0 0 0 4.6 9
-                    a1.65 1.65 0 0 0-.33-1.82l-.06-.06
-                    a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0
-                    l.06.06a1.65 1.65 0 0 0 1.82.33H9
-                    a1.65 1.65 0 0 0 1-1.51V3
-                    a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09
-                    a1.65 1.65 0 0 0 1 1.51
-                    1.65 1.65 0 0 0 1.82-.33l.06-.06
-                    a2 2 0 0 1 2.83 0 2 2 0 0 1
-                    0 2.83l-.06.06a1.65 1.65 0 0 0
-                   -.33 1.82V9a1.65 1.65 0 0 0
-                    1.51 1H21a2 2 0 0 1 2 2
-                    2 2 0 0 1-2 2h-.09
-                    a1.65 1.65 0 0 0-1.51 1z">
-                </path>
+            item.innerHTML = `
+                <img src="${userData.pfp || 'https://via.placeholder.com/52/27272a/38bdf8?text=PFP'}" class="avatar">
+                <div class="user-info">
+                    <h4>${userData.username || 'Anonymous'}</h4>
+                    <p class="${msgClass}">${displayMsg}</p>
+                </div>
+            `;
+            item.onclick = () => openChatRoom(targetId, userData.username || 'User', userData.pfp || '');
+            container.appendChild(item);
+        }
 
-            </svg>
+        function searchUsers(query) {
+            query = query.trim().toLowerCase();
+            if (query === "") {
+                document.getElementById('activeChatsArea').style.display = 'block';
+                if(!isSuggestionsHidden) document.getElementById('suggestionsWrapper').style.display = 'block';
+                loadRealtimeChats(); return;
+            }
+            
+            document.getElementById('activeChatsArea').style.display = 'none';
+            document.getElementById('suggestionsWrapper').style.display = 'block';
+            document.querySelector('.suggestions-header .section-title').innerText = 'Search Results';
+            document.querySelector('.hide-all-btn').style.display = 'none';
 
-            Setting
+            const listArea = document.getElementById('chatListArea');
+            listArea.innerHTML = '<p style="text-align:center; color:#94a3b8;">Searching...</p>';
 
-        </button>
+            database.ref('users').once('value').then(snapshot => {
+                listArea.innerHTML = ""; let found = false;
+                snapshot.forEach(child => {
+                    const uData = child.val(); const uKey = child.key;
+                    if (uKey !== myChatId) {
+                        if (uKey.toLowerCase().includes(query) || (uData.username && uData.username.toLowerCase().includes(query))) {
+                            found = true; renderUserCard(uKey, uData, listArea, null, true);
+                        }
+                    }
+                });
+                if (!found) listArea.innerHTML = '<p style="text-align:center; color:#64748b;">No user found.</p>';
+            });
+        }
 
+        // --- CHAT ROOM ---
+        function openChatRoom(targetId, targetName, targetPfp) {
+            currentChatUser = { id: targetId, name: targetName, pfp: targetPfp || 'https://via.placeholder.com/40/eee/000?text=PFP' };
+            
+            document.getElementById('activeChatName').innerText = targetName;
+            document.getElementById('activeChatIdDisplay').innerText = "@" + targetId;
+            document.getElementById('activeChatAvatar').src = currentChatUser.pfp;
+            
+            document.getElementById('chatRoom').classList.add('active');
+            database.ref(`user_chats/${myChatId}/${targetId}`).update({ unread: false });
+            listenToMessages(targetId);
 
-        <button
-            class="nav-item"
-            onclick="switchTab('account',this)">
+            setTimeout(() => { document.getElementById('msgInput').focus(); }, 350);
+        }
 
-            <svg viewBox="0 0 24 24">
+        function closeChatRoom() {
+            document.getElementById('chatRoom').classList.remove('active');
+            currentChatUser = null;
+        }
 
-                <path d="
-                    M20 21v-2a4 4 0 0 0-4-4H8
-                    a4 4 0 0 0-4 4v2">
-                </path>
+        function getChatRoomId(id1, id2) { return id1 < id2 ? `${id1}_${id2}` : `${id2}_${id1}`; }
 
-                <circle
-                    cx="12"
-                    cy="7"
-                    r="4">
-                </circle>
+        function sendMessage() {
+            const input = document.getElementById('msgInput');
+            const text = input.value.trim();
+            if (!text || !currentChatUser) return;
 
-            </svg>
+            const roomId = getChatRoomId(myChatId, currentChatUser.id);
+            const msgId = database.ref('chats/' + roomId).push().key;
+            const now = Date.now();
 
-            Account
+            const updates = {};
+            updates[`chats/${roomId}/${msgId}`] = { sender: myChatId, text: text, timestamp: now };
+            updates[`user_chats/${myChatId}/${currentChatUser.id}`] = { timestamp: now, lastMsg: `You: ${text}`, unread: false };
+            updates[`user_chats/${currentChatUser.id}/${myChatId}`] = { timestamp: now, lastMsg: text, unread: true };
 
-        </button>
+            database.ref().update(updates).then(() => { 
+                input.value = ""; input.focus(); 
+            });
+        }
 
-    </div>
+        function listenToMessages(targetId) {
+            const roomId = getChatRoomId(myChatId, targetId);
+            const msgContainer = document.getElementById('chatMessages');
+            
+            database.ref('chats/' + roomId).on('value', snapshot => {
+                msgContainer.innerHTML = "";
+                if (!snapshot.exists()) return;
 
+                snapshot.forEach(child => {
+                    const msg = child.val(); const msgId = child.key;
+                    const isMe = msg.sender === myChatId;
+                    
+                    const row = document.createElement('div');
+                    row.className = isMe ? 'msg-row me-row' : 'msg-row heshe-row';
 
-    <!-- =========================
-         CHAT ROOM
-    ========================== -->
+                    let avatarHtml = !isMe ? `<img src="${currentChatUser.pfp}" class="msg-avatar">` : '';
+                    row.innerHTML = avatarHtml + `<div class="msg-bubble ${isMe ? 'me' : 'heshe'}">${msg.text}</div>`;
+                    
+                    const bubbleElement = row.querySelector('.msg-bubble');
+                    bubbleElement.onmousedown = (e) => startPress(msgId, msg.text, isMe, e);
+                    bubbleElement.onmouseup = cancelPress;
+                    bubbleElement.onmouseleave = cancelPress;
+                    bubbleElement.ontouchstart = (e) => startPress(msgId, msg.text, isMe, e.touches[0]);
+                    bubbleElement.ontouchend = cancelPress;
 
-    <div id="chatRoom" class="chat-room">
+                    msgContainer.appendChild(row);
+                });
+                msgContainer.scrollTop = msgContainer.scrollHeight;
+                
+                if(currentChatUser && currentChatUser.id === targetId) {
+                    database.ref(`user_chats/${myChatId}/${targetId}`).update({ unread: false });
+                }
+            });
+        }
 
-        <div class="chat-room-header">
+        // --- EDIT / DELETE CONTEXT MENU ---
+        function startPress(msgId, text, isMe, e) {
+            if (!isMe) return; 
+            pressTimer = setTimeout(() => { showContextMenu(msgId, text, e.clientX || e.touches[0].clientX, e.clientY || e.touches[0].clientY); }, 600);
+        }
+        function cancelPress() { clearTimeout(pressTimer); }
+        function showContextMenu(msgId, text, x, y) {
+            selectedMsgId = msgId; selectedMsgText = text;
+            const menu = document.getElementById('contextMenu');
+            menu.style.display = 'flex';
+            if(x + 120 > window.innerWidth) x = window.innerWidth - 130;
+            if(y + 80 > window.innerHeight) y = window.innerHeight - 90;
+            menu.style.left = x + 'px'; menu.style.top = y + 'px';
+        }
+        function closeContextMenu() { document.getElementById('contextMenu').style.display = 'none'; }
+        
+        function triggerEditMessage() {
+            const newText = prompt("Edit message:", selectedMsgText);
+            if(newText && newText.trim() !== "" && currentChatUser) {
+                const roomId = getChatRoomId(myChatId, currentChatUser.id);
+                database.ref(`chats/${roomId}/${selectedMsgId}`).update({ text: newText.trim() });
+                database.ref(`user_chats/${myChatId}/${currentChatUser.id}`).update({ lastMsg: `You: ${newText.trim()}` });
+            }
+            closeContextMenu();
+        }
+        
+        function triggerDeleteMessage() {
+            if(confirm("Delete message?") && currentChatUser) {
+                const roomId = getChatRoomId(myChatId, currentChatUser.id);
+                database.ref(`chats/${roomId}/${selectedMsgId}`).remove();
+            }
+            closeContextMenu();
+        }
 
-            <div
-                class="header-left-part"
-                onclick="closeChatRoom()">
-
-                <button class="back-btn">
-                    ‹
-                </button>
-
-                <img
-                    id="activeChatAvatar"
-                    src="https://via.placeholder.com
+        // --- PROFILE ---
+        function triggerPfpUpload() { document.getElementById('pfpFileInput').click(); }
+        function uploadProfilePic(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('myProfilePic').src = e.target.result;
+                    database.ref('users/' + myChatId).update({ pfp: e.target.result });
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function updateProfileData() {
+            const newName = document.getElementById('accountUsername').value.trim();
+            const newBio = document.getElementById('accountBio').value.trim();
+            if (newName.length < 3) return alert("Username min 3 chars.");
+            database.ref('users/' + myChatId).update({ username: newName, bio: newBio }).then(() => {
+                localStorage.setItem('myUsername', newName); alert("Profile saved!");
+            });
+        }
+        function copyMyChatId() { navigator.clipboard.writeText(myChatId); alert("ID Copied: " + myChatId); }
+        function logoutUser() { localStorage.clear(); window.location.href = "index.html"; }
+    </script>
+</body>
+</html>
