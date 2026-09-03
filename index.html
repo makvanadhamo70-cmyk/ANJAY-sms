@@ -3,106 +3,13 @@
 <head>
 
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0,
-          maximum-scale=1.0, user-scalable=no">
-
-    <!-- ============================= -->
-    <!-- SEO -->
-    <!-- ============================= -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <title>ANJAY SMS - Private Chat | Anonymous Messaging</title>
-
-    <meta name="description"
-          content="ANJAY SMS ek private aur anonymous chat platform hai. Username aur private key ke saath secure private chat experience use karein.">
-
-    <meta name="keywords"
-          content="ANJAY SMS, Anjay SMS, anjay-sms, anjay sms vercel, private chat, anonymous chat, private messaging, secure chat, anonymous messaging, online chat, private messaging app, ANJAY private chat">
-
-    <meta name="author"
-          content="ANJAY SMS">
-
-    <meta name="robots"
-          content="index, follow, max-image-preview:large">
-
-    <meta name="googlebot"
-          content="index, follow">
-
-    <meta name="theme-color"
-          content="#09090b">
-
-    <link rel="canonical"
-          href="https://anjay-sms.vercel.app/">
-
-    <!-- ============================= -->
-    <!-- OPEN GRAPH -->
-    <!-- ============================= -->
-
-    <meta property="og:type"
-          content="website">
-
-    <meta property="og:url"
-          content="https://anjay-sms.vercel.app/">
-
-    <meta property="og:title"
-          content="ANJAY SMS - Private Chat">
-
-    <meta property="og:description"
-          content="ANJAY SMS - Private aur anonymous chat platform. Username aur private key ke saath chat karein.">
-
-    <meta property="og:site_name"
-          content="ANJAY SMS">
-
-    <meta property="og:image"
-          content="https://anjay-sms.vercel.app/logo.png">
-
-    <!-- ============================= -->
-    <!-- TWITTER -->
-    <!-- ============================= -->
-
-    <meta name="twitter:card"
-          content="summary_large_image">
-
-    <meta name="twitter:title"
-          content="ANJAY SMS - Private Chat">
-
-    <meta name="twitter:description"
-          content="Private aur anonymous chat platform by ANJAY SMS.">
-
-    <meta name="twitter:image"
-          content="https://anjay-sms.vercel.app/logo.png">
-
-    <!-- ============================= -->
-    <!-- STRUCTURED DATA -->
-    <!-- ============================= -->
-
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "ANJAY SMS",
-        "alternateName": [
-            "Anjay SMS",
-            "ANJAY Private Chat",
-            "Anjay Private Chat"
-        ],
-        "url": "https://anjay-sms.vercel.app/",
-        "description": "ANJAY SMS is a private and anonymous chat platform.",
-        "applicationCategory": "CommunicationApplication",
-        "operatingSystem": "Web",
-        "browserRequirements": "Requires JavaScript",
-        "inLanguage": "hi",
-        "image": "https://anjay-sms.vercel.app/logo.png"
-    }
-    </script>
-
-    <!-- ============================= -->
-    <!-- STYLE (FIXED CSS) -->
-    <!-- ============================= -->
+    <meta name="description" content="ANJAY SMS ek private aur anonymous chat platform hai.">
+    <meta name="theme-color" content="#09090b">
 
     <style>
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -112,1358 +19,324 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* FIX 1: Html aur Body ko 100% height aur width dena */
-        html,
-        body {
+        /* FIX: 100vh aur min-height use kiya hai */
+        html, body {
             width: 100%;
             height: 100%;
-            min-height: 100vh; 
-            background: #09090b; /* Background ko dark rakhein taaki cream color na dikhe */
+            min-height: 100vh;
+            background: #09090b;
             color: #ffffff;
         }
 
-        /* FIX 2: Body se overflow hatana aur content ko top se start karna */
+        /* FIX: Body se overflow hataya aur align-items flex-start kiya */
         body {
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Content top se shuru hoga */
-            overflow: auto; /* Agar content bada ho toh scroll ho sake */
+            align-items: flex-start;
+            overflow: auto;
         }
 
-        /* FIX 3: App-card ko 100vh height dena taaki full screen cover ho */
+        /* FIX: App-card ko 100vh diya */
         .app-card {
             width: 100%;
-            min-height: 100vh; /* Puri screen ki height */
-
-            background:
-                radial-gradient(
-                    circle at 50% 0%,
-                    #1e1b4b 0%,
-                    #09090b 70%
-                );
-
+            min-height: 100vh;
+            background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #09090b 70%);
             padding: 32px 24px;
-
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-
             text-align: center;
-
             position: relative;
             overflow: hidden;
         }
 
-        .top-section {
-            width: 100%;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-            margin-top: 20px;
-        }
-
-        .logo {
-            width: 90px;
-            height: 90px;
-
-            border-radius: 22px;
-
-            object-fit: cover;
-
-            border: 1px solid rgba(56,189,248,.3);
-
-            box-shadow:
-                0 0 30px rgba(56,189,248,.2);
-
-            margin-bottom: 14px;
-        }
-
-        .app-name {
-            font-size: 24px;
-            font-weight: 800;
-
-            letter-spacing: 2px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #38bdf8,
-                    #818cf8,
-                    #a78bfa
-                );
-
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-
-            text-transform: uppercase;
-        }
-
-        .privacy-badge {
-            margin-top: 6px;
-
-            background:
-                rgba(16,185,129,.1);
-
-            color: #10b981;
-
-            padding: 4px 12px;
-
-            border-radius: 20px;
-
-            font-size: 11px;
-            font-weight: 600;
-
-            border:
-                1px solid rgba(16,185,129,.2);
-        }
-
-        .content-box {
-            min-height: 120px;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            width: 100%;
-        }
-
-        .feature-title {
-            font-size: 20px;
-            font-weight: 800;
-
-            margin-bottom: 10px;
-
-            color: #f8fafc;
-        }
-
-        .feature-desc {
-            font-size: 14px;
-
-            color: #94a3b8;
-
-            line-height: 1.5;
-
-            padding: 0 10px;
-        }
-
-        .dots-container {
-            display: flex;
-
-            gap: 10px;
-
-            margin-bottom: 20px;
-
-            justify-content: center;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-
-            background:
-                rgba(255,255,255,.2);
-
-            border-radius: 50%;
-
-            transition: .4s;
-        }
-
-        .dot.active {
-            background: #38bdf8;
-
-            width: 30px;
-
-            border-radius: 10px;
-        }
-
-        .input-group {
-            width: 100%;
-
-            display: none;
-
-            flex-direction: column;
-
-            gap: 12px;
-        }
-
-        .input-group label {
-            font-size: 11px;
-
-            text-transform: uppercase;
-
-            letter-spacing: 1px;
-
-            color: #94a3b8;
-
-            text-align: left;
-
-            font-weight: 600;
-
-            margin-left: 4px;
-        }
-
-        .password-container {
-            position: relative;
-
-            width: 100%;
-        }
-
-        .password-container input,
-        .input-group input {
-            width: 100%;
-
-            padding: 16px;
-
-            border-radius: 14px;
-
-            border:
-                1px solid rgba(255,255,255,.1);
-
-            background:
-                rgba(0,0,0,.4);
-
-            color: white;
-
-            font-size: 16px;
-
-            outline: none;
-
-            text-align: center;
-        }
-
-        .input-group input:focus {
-            border-color: #38bdf8;
-        }
-
-        .eye-btn {
-            position: absolute;
-
-            right: 16px;
-
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            cursor: pointer;
-
-            font-size: 18px;
-
-            color: #94a3b8;
-        }
-
-        .btn {
-            width: 100%;
-
-            padding: 16px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #38bdf8,
-                    #4f46e5
-                );
-
-            color: #ffffff;
-
-            border: none;
-
-            border-radius: 14px;
-
-            font-size: 16px;
-
-            font-weight: 700;
-
-            cursor: pointer;
-
-            box-shadow:
-                0 10px 25px
-                rgba(79,70,229,.3);
-        }
-
-        .btn:disabled {
-            opacity: .6;
-        }
-
-        .custom-alert {
-            position: absolute;
-
-            top: 0;
-            left: 0;
-
-            width: 100%;
-            height: 100%;
-
-            background:
-                rgba(0,0,0,.8);
-
-            display: none;
-
-            justify-content: center;
-            align-items: center;
-
-            padding: 24px;
-
-            z-index: 100;
-        }
-
-        .alert-card {
-            background: #18181b;
-
-            border:
-                1px solid rgba(255,255,255,.1);
-
-            padding: 24px;
-
-            border-radius: 20px;
-
-            text-align: center;
-
-            width: 100%;
-
-            max-width: 320px;
-        }
-
-        .alert-card p {
-            font-size: 14px;
-
-            color: #f1f5f9;
-
-            margin-bottom: 20px;
-
-            line-height: 1.5;
-
-            word-break: break-word;
-        }
-
-        .alert-btn {
-            width: 100%;
-
-            padding: 12px;
-
-            background: #38bdf8;
-
-            border: none;
-
-            border-radius: 12px;
-
-            color: #09090b;
-
-            font-weight: 800;
-
-            cursor: pointer;
-        }
-
-        #loadingBox {
-            display: none;
-
-            position: absolute;
-
-            inset: 0;
-
-            background: #09090b;
-
-            z-index: 200;
-
-            align-items: center;
-
-            justify-content: center;
-
-            flex-direction: column;
-
-            gap: 12px;
-        }
-
-        #loadingBox .loader {
-            width: 36px;
-            height: 36px;
-
-            border:
-                4px solid rgba(255,255,255,.15);
-
-            border-top-color: #38bdf8;
-
-            border-radius: 50%;
-
-            animation:
-                spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-
-            to {
-                transform: rotate(360deg);
-            }
-
-        }
-
-        #statusText {
-            font-size: 13px;
-
-            color: #94a3b8;
-
-            text-align: center;
-
-            padding: 0 30px;
-        }
-
+        .top-section { width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: 20px; }
+        .logo { width: 90px; height: 90px; border-radius: 22px; object-fit: cover; border: 1px solid rgba(56,189,248,.3); box-shadow: 0 0 30px rgba(56,189,248,.2); margin-bottom: 14px; }
+        .app-name { font-size: 24px; font-weight: 800; letter-spacing: 2px; background: linear-gradient(135deg, #38bdf8, #818cf8, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
+        .privacy-badge { margin-top: 6px; background: rgba(16,185,129,.1); color: #10b981; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; border: 1px solid rgba(16,185,129,.2); }
+        .content-box { min-height: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; }
+        .feature-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; color: #f8fafc; }
+        .feature-desc { font-size: 14px; color: #94a3b8; line-height: 1.5; padding: 0 10px; }
+        .dots-container { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
+        .dot { width: 8px; height: 8px; background: rgba(255,255,255,.2); border-radius: 50%; transition: .4s; }
+        .dot.active { background: #38bdf8; width: 30px; border-radius: 10px; }
+        .input-group { width: 100%; display: none; flex-direction: column; gap: 12px; }
+        .input-group label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; text-align: left; font-weight: 600; margin-left: 4px; }
+        .password-container { position: relative; width: 100%; }
+        .password-container input, .input-group input { width: 100%; padding: 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,.1); background: rgba(0,0,0,.4); color: white; font-size: 16px; outline: none; text-align: center; }
+        .input-group input:focus { border-color: #38bdf8; }
+        .eye-btn { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; color: #94a3b8; }
+        .btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #38bdf8, #4f46e5); color: #ffffff; border: none; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(79,70,229,.3); }
+        .btn:disabled { opacity: .6; }
+        .custom-alert { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.8); display: none; justify-content: center; align-items: center; padding: 24px; z-index: 100; }
+        .alert-card { background: #18181b; border: 1px solid rgba(255,255,255,.1); padding: 24px; border-radius: 20px; text-align: center; width: 100%; max-width: 320px; }
+        .alert-card p { font-size: 14px; color: #f1f5f9; margin-bottom: 20px; line-height: 1.5; word-break: break-word; }
+        .alert-btn { width: 100%; padding: 12px; background: #38bdf8; border: none; border-radius: 12px; color: #09090b; font-weight: 800; cursor: pointer; }
+        #loadingBox { display: none; position: absolute; inset: 0; background: #09090b; z-index: 200; align-items: center; justify-content: center; flex-direction: column; gap: 12px; }
+        #loadingBox .loader { width: 36px; height: 36px; border: 4px solid rgba(255,255,255,.15); border-top-color: #38bdf8; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        #statusText { font-size: 13px; color: #94a3b8; text-align: center; padding: 0 30px; }
     </style>
 
 </head>
-
-
 <body>
 
 <div class="app-card">
-
     <div class="top-section">
-
-        <img
-            src="logo.png"
-            alt="ANJAY SMS Private Chat Logo"
-            class="logo"
-            onerror="this.style.display='none';"
-        >
-
-        <div class="app-name">
-            ANJAY SMS
-        </div>
-
-        <div class="privacy-badge">
-            PRIVATE CHAT
-        </div>
-
+        <img src="logo.png" alt="ANJAY SMS Private Chat Logo" class="logo" onerror="this.style.display='none';">
+        <div class="app-name">ANJAY SMS</div>
+        <div class="privacy-badge">PRIVATE CHAT</div>
     </div>
 
-
-    <div
-        class="content-box"
-        id="contentBox">
-
-        <h1
-            class="feature-title"
-            id="featureTitle">
-
-            ANJAY SMS - Private Chat
-
-        </h1>
-
-        <p
-            class="feature-desc"
-            id="featureDesc">
-
-            ANJAY SMS ek private aur anonymous
-            chat platform hai. Username aur
-            private key ke saath chat karein.
-
-        </p>
-
+    <div class="content-box" id="contentBox">
+        <h1 class="feature-title" id="featureTitle">ANJAY SMS - Private Chat</h1>
+        <p class="feature-desc" id="featureDesc">ANJAY SMS ek private aur anonymous chat platform hai. Username aur private key ke saath chat karein.</p>
     </div>
 
-
-    <div
-        class="input-group"
-        id="usernameGroup">
-
-        <label>
-            Choose or Enter Username
-        </label>
-
-        <input
-            type="text"
-            id="usernameInput"
-            placeholder="Apna username dalein..."
-            maxlength="15"
-            autocomplete="off">
-
+    <div class="input-group" id="usernameGroup">
+        <label>Choose or Enter Username</label>
+        <input type="text" id="usernameInput" placeholder="Apna username dalein..." maxlength="15" autocomplete="off">
     </div>
 
-
-    <div
-        class="input-group"
-        id="pinGroup">
-
-        <label id="pinLabel">
-            Set 4-Digit Private Key
-        </label>
-
+    <div class="input-group" id="pinGroup">
+        <label id="pinLabel">Set 4-Digit Private Key</label>
         <div class="password-container">
-
-            <input
-                type="password"
-                id="pinInput"
-                placeholder="••••"
-                maxlength="4"
-                inputmode="numeric"
-                autocomplete="off">
-
-            <span
-                class="eye-btn"
-                onclick="togglePinVisibility()">
-
-                👁️
-
-            </span>
-
+            <input type="password" id="pinInput" placeholder="••••" maxlength="4" inputmode="numeric" autocomplete="off">
+            <span class="eye-btn" onclick="togglePinVisibility()">👁️</span>
         </div>
-
-
-        <button
-            id="forgotBtn"
-            onclick="forgotPassword()"
-            style="
-                background:none;
-                border:none;
-                color:#38bdf8;
-                font-size:13px;
-                text-decoration:underline;
-                cursor:pointer;
-                margin-top:8px;
-                display:none;
-            ">
-
-            Forgot Private Key?
-
-        </button>
-
+        <button id="forgotBtn" onclick="forgotPassword()" style="background:none; border:none; color:#38bdf8; font-size:13px; text-decoration:underline; cursor:pointer; margin-top:8px; display:none;">Forgot Private Key?</button>
     </div>
-
 
     <div style="width:100%;">
-
-        <div
-            class="dots-container"
-            id="dotsContainer">
-
+        <div class="dots-container" id="dotsContainer">
             <div class="dot active"></div>
-
             <div class="dot"></div>
-
             <div class="dot"></div>
-
         </div>
-
-
-        <button
-            class="btn"
-            id="nextBtn"
-            onclick="nextStep()">
-
-            Next
-
-        </button>
-
+        <button class="btn" id="nextBtn" onclick="nextStep()">Next</button>
     </div>
 
-
-    <div
-        class="custom-alert"
-        id="customAlert">
-
+    <div class="custom-alert" id="customAlert">
         <div class="alert-card">
-
-            <p id="alertMessage">
-                Kripya details sahi bharein!
-            </p>
-
-            <button
-                class="alert-btn"
-                onclick="closeAlert()">
-
-                Samajh Gaya
-
-            </button>
-
+            <p id="alertMessage">Kripya details sahi bharein!</p>
+            <button class="alert-btn" onclick="closeAlert()">Samajh Gaya</button>
         </div>
-
     </div>
-
 
     <div id="loadingBox">
-
         <div class="loader"></div>
-
-        <div id="statusText">
-            Loading...
-        </div>
-
+        <div id="statusText">Loading...</div>
     </div>
-
 </div>
 
-
-<!-- ============================= -->
-<!-- FIREBASE -->
-<!-- ============================= -->
-
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-
 <script>
-
 const firebaseConfig = {
-
-    apiKey:
-        "AIzaSyAJBgC-DTaoKdg_hmnxMAMPM-0tIQ999Js",
-
-    authDomain:
-        "anjay-sms-d7930.firebaseapp.com",
-
-    databaseURL:
-        "https://anjay-sms-d7930-default-rtdb.asia-southeast1.firebasedatabase.app",
-
-    projectId:
-        "anjay-sms-d7930",
-
-    storageBucket:
-        "anjay-sms-d7930.firebasestorage.app",
-
-    messagingSenderId:
-        "726689670179",
-
-    appId:
-        "1:726689670179:web:5ffb3e1f43ccd95db0bd96",
-
-    measurementId:
-        "G-7CWNH4P1PW"
-
+    apiKey: "AIzaSyAJBgC-DTaoKdg_hmnxMAMPM-0tIQ999Js",
+    authDomain: "anjay-sms-d7930.firebaseapp.com",
+    databaseURL: "https://anjay-sms-d7930-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "anjay-sms-d7930",
+    storageBucket: "anjay-sms-d7930.firebasestorage.app",
+    messagingSenderId: "726689670179",
+    appId: "1:726689670179:web:5ffb3e1f43ccd95db0bd96"
 };
-
 
 let database = null;
 
-
-window.onerror = function(
-    message,
-    source,
-    lineno,
-    colno,
-    error
-) {
-
-    console.error(
-        "JS ERROR:",
-        message,
-        source,
-        lineno,
-        colno,
-        error
-    );
-
-    showAlert(
-        "App JavaScript Error:\n" +
-        message
-    );
-
+window.onerror = function(message, source, lineno, colno, error) {
+    console.error("JS ERROR:", message, source, lineno, colno, error);
+    showAlert("App JavaScript Error:\n" + message);
     return false;
-
 };
 
-
 try {
-
-    if (
-        typeof firebase === "undefined" ||
-        !firebase.initializeApp
-    ) {
-
-        throw new Error(
-            "Firebase SDK load nahi hua."
-        );
-
+    if (typeof firebase === "undefined" || !firebase.initializeApp) {
+        throw new Error("Firebase SDK load nahi hua.");
     }
-
-    firebase.initializeApp(
-        firebaseConfig
-    );
-
-    database =
-        firebase.database();
-
+    firebase.initializeApp(firebaseConfig);
+    database = firebase.database();
 } catch(error) {
-
-    console.error(
-        "Firebase initialization failed:",
-        error
-    );
-
+    console.error("Firebase initialization failed:", error);
     setTimeout(function() {
-
-        showAlert(
-            "Firebase connect nahi ho raha.\n\n" +
-            error.message
-        );
-
+        showAlert("Firebase connect nahi ho raha.\n\n" + error.message);
     }, 300);
-
 }
-
 
 let flowState = "SLIDES";
-
 let currentStep = 0;
-
 let tempUsername = "";
-
 let existingUserData = null;
-
 let isExistingUser = false;
-
 let isMissingPin = false;
 
-
 const steps = [
-
-    {
-        title:
-            "ANJAY SMS - Private Chat",
-
-        desc:
-            "ANJAY SMS ek private aur anonymous chat platform hai."
-    },
-
-    {
-        title:
-            "Private Chat",
-
-        desc:
-            "Username aur private key ke saath private chat experience use karein."
-    },
-
-    {
-        title:
-            "Permanent Chat ID",
-
-        desc:
-            "Aapko ek Random Chat ID milegi jisse aap dosto ke saath chat kar sakte hain."
-    }
-
+    { title: "ANJAY SMS - Private Chat", desc: "ANJAY SMS ek private aur anonymous chat platform hai." },
+    { title: "Private Chat", desc: "Username aur private key ke saath private chat experience use karein." },
+    { title: "Permanent Chat ID", desc: "Aapko ek Random Chat ID milegi jisse aap dosto ke saath chat kar sakte hain." }
 ];
 
-
 function togglePinVisibility() {
-
-    const input =
-        document.getElementById(
-            "pinInput"
-        );
-
-    if (
-        input.type === "password"
-    ) {
-
-        input.type = "text";
-
-    } else {
-
-        input.type = "password";
-
-    }
-
+    const input = document.getElementById("pinInput");
+    if (input.type === "password") { input.type = "text"; } else { input.type = "password"; }
 }
-
 
 function nextStep() {
+    const contentBox = document.getElementById("contentBox");
+    const btn = document.getElementById("nextBtn");
 
-    const contentBox =
-        document.getElementById(
-            "contentBox"
-        );
-
-    const btn =
-        document.getElementById(
-            "nextBtn"
-        );
-
-
-    if (
-        flowState === "SLIDES"
-    ) {
-
-        if (
-            currentStep <
-            steps.length - 1
-        ) {
-
+    if (flowState === "SLIDES") {
+        if (currentStep < steps.length - 1) {
             currentStep++;
-
-            document.getElementById(
-                "featureTitle"
-            ).innerText =
-                steps[currentStep].title;
-
-            document.getElementById(
-                "featureDesc"
-            ).innerText =
-                steps[currentStep].desc;
-
-
-            document
-                .querySelectorAll(".dot")
-                .forEach(function(
-                    dot,
-                    index
-                ) {
-
-                    dot.classList.toggle(
-                        "active",
-                        index === currentStep
-                    );
-
-                });
-
-
-            if (
-                currentStep ===
-                steps.length - 1
-            ) {
-
-                btn.innerText =
-                    "Continue";
-
-            }
-
+            document.getElementById("featureTitle").innerText = steps[currentStep].title;
+            document.getElementById("featureDesc").innerText = steps[currentStep].desc;
+            document.querySelectorAll(".dot").forEach(function(dot, index) {
+                dot.classList.toggle("active", index === currentStep);
+            });
+            if (currentStep === steps.length - 1) { btn.innerText = "Continue"; }
         } else {
-
-            flowState =
-                "USERNAME_INPUT";
-
-            contentBox.style.display =
-                "none";
-
-            document.getElementById(
-                "dotsContainer"
-            ).style.display =
-                "none";
-
-            document.getElementById(
-                "usernameGroup"
-            ).style.display =
-                "flex";
-
-            btn.innerText =
-                "Next";
-
+            flowState = "USERNAME_INPUT";
+            contentBox.style.display = "none";
+            document.getElementById("dotsContainer").style.display = "none";
+            document.getElementById("usernameGroup").style.display = "flex";
+            btn.innerText = "Next";
         }
-
         return;
     }
 
-
-    if (
-        flowState ===
-        "USERNAME_INPUT"
-    ) {
-
-        const username =
-            document.getElementById(
-                "usernameInput"
-            ).value.trim();
-
-
-        if (
-            username.length < 3
-        ) {
-
-            showAlert(
-                "Username must be at least 3 characters!"
-            );
-
-            return;
-        }
-
-
-        tempUsername =
-            username;
-
-        checkUserInDatabase(
-            username
-        );
-
+    if (flowState === "USERNAME_INPUT") {
+        const username = document.getElementById("usernameInput").value.trim();
+        if (username.length < 3) { showAlert("Username must be at least 3 characters!"); return; }
+        tempUsername = username;
+        checkUserInDatabase(username);
         return;
     }
 
-
-    if (
-        flowState ===
-        "PIN_INPUT"
-    ) {
-
-        handlePinSubmit();
-
-    }
-
+    if (flowState === "PIN_INPUT") { handlePinSubmit(); }
 }
 
+function checkUserInDatabase(username) {
+    if (!database) { showAlert("Firebase available nahi hai. Internet connection check karein."); return; }
+    setLoading(true, "Firebase se user check ho raha hai...");
 
-function checkUserInDatabase(
-    username
-) {
+    database.ref("users").orderByChild("username").equalTo(username).once("value")
+    .then(function(snapshot) {
+        setLoading(false);
+        document.getElementById("usernameGroup").style.display = "none";
+        document.getElementById("pinGroup").style.display = "flex";
 
-    if (!database) {
+        if (snapshot.exists()) {
+            isExistingUser = true;
+            existingUserData = null;
+            snapshot.forEach(function(child) {
+                existingUserData = child.val();
+                existingUserData.chatIdKey = child.key;
+            });
 
-        showAlert(
-            "Firebase available nahi hai. Internet connection check karein."
-        );
-
-        return;
-    }
-
-
-    setLoading(
-        true,
-        "Firebase se user check ho raha hai..."
-    );
-
-
-    database
-        .ref("users")
-        .orderByChild("username")
-        .equalTo(username)
-        .once("value")
-
-        .then(function(snapshot) {
-
-            setLoading(false);
-
-
-            document.getElementById(
-                "usernameGroup"
-            ).style.display =
-                "none";
-
-
-            document.getElementById(
-                "pinGroup"
-            ).style.display =
-                "flex";
-
-
-            if (
-                snapshot.exists()
-            ) {
-
-                isExistingUser =
-                    true;
-
-                existingUserData =
-                    null;
-
-
-                snapshot.forEach(
-                    function(child) {
-
-                        existingUserData =
-                            child.val();
-
-                        existingUserData.chatIdKey =
-                            child.key;
-
-                    }
-                );
-
-
-                if (
-                    !existingUserData.privateKey
-                ) {
-
-                    isMissingPin =
-                        true;
-
-                    document.getElementById(
-                        "pinLabel"
-                    ).innerText =
-                        "Create New Private Key (PIN)";
-
-                    document.getElementById(
-                        "nextBtn"
-                    ).innerText =
-                        "Save & Login";
-
-                } else {
-
-                    isMissingPin =
-                        false;
-
-                    document.getElementById(
-                        "pinLabel"
-                    ).innerText =
-                        "Enter your Private Key";
-
-                    document.getElementById(
-                        "forgotBtn"
-                    ).style.display =
-                        "block";
-
-                    document.getElementById(
-                        "nextBtn"
-                    ).innerText =
-                        "Login Chat";
-
-                }
-
+            if (!existingUserData.privateKey) {
+                isMissingPin = true;
+                document.getElementById("pinLabel").innerText = "Create New Private Key (PIN)";
+                document.getElementById("nextBtn").innerText = "Save & Login";
             } else {
-
-                isExistingUser =
-                    false;
-
-                isMissingPin =
-                    false;
-
-                document.getElementById(
-                    "pinLabel"
-                ).innerText =
-                    "Create 4-Digit Private Key (PIN)";
-
-                document.getElementById(
-                    "nextBtn"
-                ).innerText =
-                    "Start Chatting";
-
+                isMissingPin = false;
+                document.getElementById("pinLabel").innerText = "Enter your Private Key";
+                document.getElementById("forgotBtn").style.display = "block";
+                document.getElementById("nextBtn").innerText = "Login Chat";
             }
+        } else {
+            isExistingUser = false;
+            isMissingPin = false;
+            document.getElementById("pinLabel").innerText = "Create 4-Digit Private Key (PIN)";
+            document.getElementById("nextBtn").innerText = "Start Chatting";
+        }
 
-
-            document.getElementById(
-                "pinInput"
-            ).value = "";
-
-
-            flowState =
-                "PIN_INPUT";
-
-        })
-
-        .catch(function(error) {
-
-            setLoading(false);
-
-            console.error(
-                "Firebase database error:",
-                error
-            );
-
-            showAlert(
-                "Firebase database error:\n\n" +
-                error.message
-            );
-
-        });
-
+        document.getElementById("pinInput").value = "";
+        flowState = "PIN_INPUT";
+    })
+    .catch(function(error) {
+        setLoading(false);
+        console.error("Firebase database error:", error);
+        showAlert("Firebase database error:\n\n" + error.message);
+    });
 }
-
 
 function handlePinSubmit() {
+    const pin = document.getElementById("pinInput").value.trim();
+    if (!/^\d{4}$/.test(pin)) { showAlert("Private Key strictly 4 digits ki honi chahiye!"); return; }
 
-    const pin =
-        document.getElementById(
-            "pinInput"
-        ).value.trim();
-
-
-    if (
-        !/^\d{4}$/.test(pin)
-    ) {
-
-        showAlert(
-            "Private Key strictly 4 digits ki honi chahiye!"
-        );
-
-        return;
-    }
-
-
-    if (
-        isExistingUser
-    ) {
-
-
-        if (
-            isMissingPin
-        ) {
-
-            setLoading(
-                true,
-                "Private Key save ho rahi hai..."
-            );
-
-
-            database
-                .ref(
-                    "users/" +
-                    existingUserData.chatIdKey
-                )
-
-                .update({
-                    privateKey: pin
-                })
-
-                .then(function() {
-
-                    saveLogin(
-                        existingUserData.chatIdKey,
-                        existingUserData.username
-                    );
-
-                })
-
-                .catch(function(error) {
-
-                    setLoading(false);
-
-                    showAlert(
-                        "PIN save nahi hua:\n\n" +
-                        error.message
-                    );
-
-                });
-
+    if (isExistingUser) {
+        if (isMissingPin) {
+            setLoading(true, "Private Key save ho rahi hai...");
+            database.ref("users/" + existingUserData.chatIdKey).update({ privateKey: pin })
+            .then(function() { saveLogin(existingUserData.chatIdKey, existingUserData.username); })
+            .catch(function(error) { setLoading(false); showAlert("PIN save nahi hua:\n\n" + error.message); });
             return;
         }
 
-
-        if (
-            pin ===
-            String(
-                existingUserData.privateKey
-            )
-        ) {
-
-            saveLogin(
-                existingUserData.chatIdKey,
-                existingUserData.username
-            );
-
+        if (pin === String(existingUserData.privateKey)) {
+            saveLogin(existingUserData.chatIdKey, existingUserData.username);
         } else {
-
-            showAlert(
-                "Galat Private Key! Kripya sahi PIN dalein."
-            );
-
+            showAlert("Galat Private Key! Kripya sahi PIN dalein.");
         }
-
         return;
     }
 
+    const randomId = Math.floor(100000 + Math.random() * 900000).toString();
+    const userData = { username: tempUsername, privateKey: pin, chatId: randomId, createdAt: Date.now() };
 
-    const randomId =
-        Math.floor(
-            100000 +
-            Math.random() *
-            900000
-        ).toString();
-
-
-    const userData = {
-
-        username:
-            tempUsername,
-
-        privateKey:
-            pin,
-
-        chatId:
-            randomId,
-
-        createdAt:
-            Date.now()
-
-    };
-
-
-    setLoading(
-        true,
-        "New account create ho raha hai..."
-    );
-
-
-    database
-        .ref(
-            "users/" +
-            randomId
-        )
-
-        .set(userData)
-
-        .then(function() {
-
-            saveLogin(
-                randomId,
-                tempUsername
-            );
-
-        })
-
-        .catch(function(error) {
-
-            setLoading(false);
-
-            showAlert(
-                "Account create nahi hua:\n\n" +
-                error.message
-            );
-
-        });
-
+    setLoading(true, "New account create ho raha hai...");
+    database.ref("users/" + randomId).set(userData)
+    .then(function() { saveLogin(randomId, tempUsername); })
+    .catch(function(error) { setLoading(false); showAlert("Account create nahi hua:\n\n" + error.message); });
 }
 
-
-function saveLogin(
-    chatId,
-    username
-) {
-
+function saveLogin(chatId, username) {
     try {
-
-        localStorage.setItem(
-            "myChatId",
-            String(chatId)
-        );
-
-        localStorage.setItem(
-            "myUsername",
-            String(username)
-        );
-
+        localStorage.setItem("myChatId", String(chatId));
+        localStorage.setItem("myUsername", String(username));
     } catch(error) {
-
         setLoading(false);
-
-        showAlert(
-            "Local storage error:\n\n" +
-            error.message
-        );
-
+        showAlert("Local storage error:\n\n" + error.message);
         return;
     }
-
-
-    setLoading(
-        true,
-        "Chat open ho raha hai..."
-    );
-
-
-    window.location.href =
-        "homepage.html";
-
+    setLoading(true, "Chat open ho raha hai...");
+    window.location.href = "homepage.html";
 }
-
 
 function forgotPassword() {
-
-    const username =
-        encodeURIComponent(
-            tempUsername
-        );
-
-
-    window.location.href =
-        "https://wa.me/918160723494?text=" +
-        "Hi,%20I%20forgot%20my%20ANJAY%20Private%20Chat%20PIN.%20Username:%20" +
-        username;
-
+    const username = encodeURIComponent(tempUsername);
+    window.location.href = "https://wa.me/918160723494?text=" + "Hi,%20I%20forgot%20my%20ANJAY%20Private%20Chat%20PIN.%20Username:%20" + username;
 }
-
 
 function showAlert(msg) {
-
-    document.getElementById(
-        "alertMessage"
-    ).innerText =
-        String(msg);
-
-
-    document.getElementById(
-        "customAlert"
-    ).style.display =
-        "flex";
-
+    document.getElementById("alertMessage").innerText = String(msg);
+    document.getElementById("customAlert").style.display = "flex";
 }
-
 
 function closeAlert() {
-
-    document.getElementById(
-        "customAlert"
-    ).style.display =
-        "none";
-
+    document.getElementById("customAlert").style.display = "none";
 }
 
-
-function setLoading(
-    visible,
-    text
-) {
-
-    const box =
-        document.getElementById(
-            "loadingBox"
-        );
-
-    const status =
-        document.getElementById(
-            "statusText"
-        );
-
-
+function setLoading(visible, text) {
+    const box = document.getElementById("loadingBox");
+    const status = document.getElementById("statusText");
     if (visible) {
-
-        status.innerText =
-            text ||
-            "Loading...";
-
-        box.style.display =
-            "flex";
-
+        status.innerText = text || "Loading...";
+        box.style.display = "flex";
     } else {
-
-        box.style.display =
-            "none";
-
+        box.style.display = "none";
     }
-
 }
-
 
 try {
-
-    const savedChatId =
-        localStorage.getItem(
-            "myChatId"
-        );
-
-    const savedUsername =
-        localStorage.getItem(
-            "myUsername"
-        );
-
-
-    if (
-        savedChatId &&
-        savedUsername
-    ) {
-
-        window.location.replace(
-            "homepage.html"
-        );
-
-    }
-
+    const savedChatId = localStorage.getItem("myChatId");
+    const savedUsername = localStorage.getItem("myUsername");
+    if (savedChatId && savedUsername) { window.location.replace("homepage.html"); }
 } catch(error) {
-
-    console.error(
-        "LocalStorage error:",
-        error
-    );
-
+    console.error("LocalStorage error:", error);
 }
-
 </script>
 
 </body>
