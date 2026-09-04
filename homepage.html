@@ -659,6 +659,95 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* ========================================== */
+        /* NEW: FULLSCREEN & DOWNLOAD POPUP STYLES */
+        /* ========================================== */
+        .welcome-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            padding: 20px;
+        }
+
+        .welcome-popup-card {
+            background: #18181b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 30px 20px;
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .welcome-popup-card h2 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-popup-card p {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .popup-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            touch-action: manipulation;
+        }
+
+        .popup-btn-fullscreen {
+            background: linear-gradient(135deg, #38bdf8, #4f46e5);
+            color: #ffffff;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+        }
+
+        .popup-btn-download {
+            background: #10b981;
+            color: #ffffff;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
+        }
+
+        .popup-close-btn {
+            width: 100%;
+            padding: 10px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .popup-close-btn:hover {
+            color: #ffffff;
+        }
     </style>
 </head>
 
@@ -829,6 +918,26 @@
     </div>
 </div>
 
+<!-- ========================================== -->
+<!-- NEW: FULLSCREEN & DOWNLOAD POPUP HTML -->
+<!-- ========================================== -->
+<div id="welcomePopup" class="welcome-popup-overlay">
+    <div class="welcome-popup-card">
+        <h2>ANJAY SMS</h2>
+        <p>Better experience in Full Screen!<br>Ya phir apna app download karein.</p>
+        
+        <button type="button" class="popup-btn popup-btn-fullscreen" onclick="goFullScreen()">
+            🖥️ Go Full Screen
+        </button>
+        
+        <button type="button" class="popup-btn popup-btn-download" onclick="downloadApp()">
+            ⬇️ Download App (APK)
+        </button>
+        
+        <button type="button" class="popup-close-btn" onclick="closePopup()">Cancel / Close</button>
+    </div>
+</div>
+
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -836,6 +945,45 @@
 <script>
 (function () {
     "use strict";
+
+    // ==========================================
+    // NEW: POPUP LOGIC & FUNCTIONS
+    // ==========================================
+    // Show popup after 1 second
+    setTimeout(function() {
+        document.getElementById('welcomePopup').style.display = 'flex';
+    }, 1000);
+
+    function closePopup() {
+        document.getElementById('welcomePopup').style.display = 'none';
+    }
+
+    function goFullScreen() {
+        const elem = document.documentElement;
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+        } else {
+            alert("Fullscreen not supported in this browser.");
+        }
+        closePopup();
+    }
+
+    function downloadApp() {
+        const link = document.createElement('a');
+        link.href = 'ANJAY PRIVATE CHAT.apk';
+        link.download = 'ANJAY PRIVATE CHAT.apk';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        closePopup();
+    }
+    // ==========================================
+    // END POPUP FUNCTIONS
+    // ==========================================
 
     const firebaseConfig = {
         apiKey: "AIzaSyAJBgC-DTaoKdg_hmnxMAMPM-0tIQ999Js",
@@ -1596,4 +1744,4 @@
 })();
 </script>
 </body>
-</html>
+</html
