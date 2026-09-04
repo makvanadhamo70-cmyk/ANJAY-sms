@@ -169,7 +169,7 @@
         /* Image Message */
         .msg-bubble img.msg-image { max-width: 200px; max-height: 250px; border-radius: 12px; display: block; margin-bottom: 5px; object-fit: cover; }
 
-        /* Reply Context (Inside Bubble) */
+        /* Reply Context */
         .reply-context {
             background: rgba(0, 0, 0, 0.1); padding: 4px 8px; border-radius: 8px; margin-bottom: 4px; font-size: 12px;
             border-left: 3px solid #f9196b;
@@ -183,7 +183,7 @@
         .msg-meta.me { color: rgba(255,255,255,0.8); }
         .msg-meta.seen { color: #10b981; font-weight: 700; }
 
-        /* Reply Preview (Above Input) */
+        /* Reply Preview */
         .reply-preview {
             display: none; background: #f1f2f6; padding: 10px 16px; border-top: 1px solid #f0f0f0;
             align-items: center; justify-content: space-between;
@@ -307,7 +307,7 @@
             <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Friends
         </button>
         
-        <button type="button" class="nav-download-btn" onclick="downloadApp()">
+        <button type="button" class="nav-download-btn" id="navDownloadBtn">
             <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
             APK
         </button>
@@ -339,7 +339,7 @@
         </div>
         <div id="chatMessages" class="chat-messages"></div>
 
-        <!-- Reply Preview Bar (Above Input) -->
+        <!-- Reply Preview Bar -->
         <div id="replyPreview" class="reply-preview">
             <div>
                 <span id="replyToName">Replying to</span>
@@ -408,10 +408,11 @@
     function toggleFullScreen() { isFullscreen() ? exitFullScreen() : requestFullScreen(); }
 
     // ==========================================
-    // FIX: Download Button opens MediaFire Link
+    // FIXED: MediaFire Link Download
     // ==========================================
     function downloadApp() {
-        window.open('https://www.mediafire.com/file/vhbzh40rm5qgj70/ANJAY_PRIVATE_CHAT.apk/file', '_blank');
+        // Direct location.href use kiya hai, ye 100% kaam karega
+        window.location.href = "https://www.mediafire.com/file/vhbzh40rm5qgj70/ANJAY+PRIVATE+CHAT.apk/file";
     }
 
     // Auto Fullscreen logic
@@ -649,9 +650,7 @@
 
     function getChatRoomId(id1, id2) { return id1 < id2 ? id1 + "_" + id2 : id2 + "_" + id1; }
 
-    // ==========================================
     // REPLY FUNCTIONS
-    // ==========================================
     function startReply(msgId, text, name) {
         replyToMsg = { id: msgId, text: text || "📷 Photo", name: name };
         $("replyToName").innerText = "Replying to " + name;
@@ -777,7 +776,6 @@
                 const bubble = document.createElement("div");
                 bubble.className = "msg-bubble " + (isMe ? "me" : "heshe");
                 
-                // Render Reply Context
                 if (msg.replyTo && msg.replyTo.name) {
                     const replyDiv = document.createElement("div");
                     replyDiv.className = "reply-context";
@@ -790,7 +788,6 @@
                     bubble.appendChild(replyDiv);
                 }
 
-                // Render Image or Text
                 if (msg.type === "image" && msg.image) {
                     const img = document.createElement("img");
                     img.src = msg.image;
@@ -803,7 +800,6 @@
                     bubble.appendChild(textNode);
                 }
                 
-                // Meta Info
                 const meta = document.createElement("span");
                 meta.className = "msg-meta" + (isMe ? " me" : "");
                 const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "";
@@ -815,7 +811,7 @@
                 }
                 bubble.appendChild(meta);
                 
-                // SWIPE TO REPLY LOGIC
+                // Swipe to Reply
                 let startTouchX = 0;
                 let startTouchY = 0;
                 bubble.addEventListener("touchstart", function(e) {
@@ -827,14 +823,12 @@
                     const endTouchY = e.changedTouches[0].clientY;
                     const deltaX = endTouchX - startTouchX;
                     const deltaY = endTouchY - startTouchY;
-
                     if (Math.abs(deltaX) > 60 && Math.abs(deltaY) < 30) {
                         e.preventDefault();
                         startReply(msgId, msg.text || "📷 Photo", isMe ? "You" : currentChatUser.name);
                     }
                 }, { passive: false });
 
-                // Edit/Delete on Long Press for own messages
                 if (isMe) {
                     bubble.addEventListener("mousedown", function (e) { startPress(msgId, msg.text || "", e.clientX, e.clientY); });
                     bubble.addEventListener("mouseup", cancelPress);
@@ -1014,6 +1008,12 @@
         $("copyIdBtn").addEventListener("click", copyMyChatId);
         $("saveProfileBtn").addEventListener("click", updateProfileData);
         $("logoutBtn").addEventListener("click", logoutUser);
+        
+        // FIXED: Green APK button click listener
+        $("navDownloadBtn").addEventListener("click", function() {
+            downloadApp();
+        });
+
         document.addEventListener("click", function (e) { if (!e.target.closest("#contextMenu")) closeContextMenu(); }, { passive: true });
     }
 
