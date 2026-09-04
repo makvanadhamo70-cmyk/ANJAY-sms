@@ -35,10 +35,8 @@
         }
 
         body { position: fixed; inset: 0; }
-
         input, textarea { user-select: text; -webkit-user-select: text; }
 
-        /* ===== APP CARD ===== */
         .app-card {
             position: fixed;
             inset: 0;
@@ -52,10 +50,9 @@
             flex-direction: column;
             overflow: hidden;
             z-index: 1;
-            isolation: isolate;
         }
 
-        /* ===== HEADER ===== */
+        /* Header & Search */
         .app-header {
             flex: 0 0 auto;
             padding: 14px 16px;
@@ -65,7 +62,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            position: relative;
             z-index: 2;
         }
 
@@ -78,7 +74,7 @@
         .search-box input:focus { border-color: rgba(56, 189, 248, 0.45); }
         .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 14px; pointer-events: none; }
 
-        /* ===== TABS ===== */
+        /* Tabs */
         .tab-content {
             flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 16px; padding-bottom: 20px;
             display: none; flex-direction: column; gap: 12px; -webkit-overflow-scrolling: touch; touch-action: pan-y;
@@ -87,7 +83,7 @@
 
         .section-title { font-size: 13px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* ===== USER CARD ===== */
+        /* User Card */
         .user-item {
             display: flex; align-items: center; gap: 14px; padding: 12px;
             background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05);
@@ -95,13 +91,11 @@
             width: 100%; min-height: 76px; position: relative;
         }
         .user-item:active { transform: scale(0.985); background: rgba(56, 189, 248, 0.10); }
-
         .avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; background: #27272a; flex-shrink: 0; }
         .user-info { flex: 1; min-width: 0; overflow: hidden; }
         .user-info h4 { font-size: 15px; color: #f8fafc; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .user-info p { font-size: 12px; color: #94a3b8; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .unread-text { font-weight: 800; color: #f8fafc !important; }
-
         .unread-badge {
             background: #f9196b; color: white; border-radius: 12px; padding: 2px 7px; font-size: 10px;
             font-weight: 800; min-width: 20px; text-align: center; position: absolute; right: 10px; top: 10px;
@@ -111,12 +105,12 @@
         .suggestions-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; margin-top: 10px; }
         .hide-all-btn { background: none; border: none; color: #ef4444; font-size: 18px; cursor: pointer; padding: 0 5px; }
 
-        /* ===== SETTINGS ===== */
+        /* Settings */
         .settings-group { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 8px; display: flex; flex-direction: column; gap: 4px; }
         .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; border-radius: 12px; cursor: pointer; color: #e2e8f0; font-size: 14px; font-weight: 500; }
         .setting-item:active { background: rgba(255, 255, 255, 0.05); }
 
-        /* ===== NAVIGATION ===== */
+        /* Navigation */
         .nav-bar {
             flex: 0 0 65px; height: 65px; padding-bottom: env(safe-area-inset-bottom); box-sizing: content-box;
             background: rgba(15, 15, 18, 0.98); border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -133,13 +127,26 @@
         }
         .nav-download-btn svg { width: 20px; height: 20px; stroke: white; stroke-width: 2; fill: none; }
 
-        /* ===== CHAT ROOM ===== */
+        /* Chat Room - SIMPLIFIED & RELIABLE using left */
         .chat-room {
-            position: absolute; inset: 0; width: 100%; height: 100%; background: #fcfcfc; color: #000;
-            display: flex; flex-direction: column; z-index: 50; transform: translateX(100%);
-            transition: transform 0.22s ease-out; pointer-events: none;
+            position: absolute;
+            top: 0;
+            left: 100%; /* Start from right side */
+            width: 100%;
+            height: 100%;
+            background: #fcfcfc;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            z-index: 50;
+            transition: left 0.25s ease-out;
+            pointer-events: none;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
         }
-        .chat-room.active { transform: translateX(0); pointer-events: auto; }
+        .chat-room.active {
+            left: 0; /* Slide in */
+            pointer-events: auto;
+        }
 
         .chat-room-header { flex: 0 0 auto; padding: 12px 16px; padding-top: max(12px, env(safe-area-inset-top)); background: #ffffff; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: space-between; min-height: 64px; }
         .header-left-part { display: flex; align-items: center; gap: 12px; cursor: pointer; min-width: 0; }
@@ -183,12 +190,12 @@
         .input-pill input { flex: 1; min-width: 0; border: none; background: transparent; color: #000; font-size: 15px; padding: 10px 0; outline: none; }
         .send-airplane-btn { background: none; border: none; color: #f9196b; font-size: 24px; cursor: pointer; padding-left: 8px; transform: rotate(45deg); flex-shrink: 0; }
 
-        /* ===== CONTEXT MENU ===== */
+        /* Context Menu */
         .context-menu { position: fixed; background: #27272a; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 8px; display: none; z-index: 1000; box-shadow: 0 10px 25px rgba(0,0,0,0.5); flex-direction: column; gap: 5px; width: 120px; }
         .context-menu button { background: none; border: none; color: white; padding: 10px; text-align: left; border-radius: 8px; cursor: pointer; font-size: 13px; }
         .context-menu button:active { background: rgba(255,255,255,0.1); }
 
-        /* ===== PROFILE ===== */
+        /* Account */
         .instagram-profile { display: flex; flex-direction: column; gap: 20px; padding-top: 10px; }
         .profile-header-insta { display: flex; align-items: center; gap: 20px; }
         .insta-avatar { width: 85px; height: 85px; border-radius: 50%; object-fit: cover; border: 2px solid #38bdf8; cursor: pointer; }
@@ -203,7 +210,7 @@
         .edit-profile-form textarea { min-height: 80px; resize: vertical; }
         .action-btn { background: #38bdf8; border: none; padding: 14px; border-radius: 10px; font-weight: 700; color: #09090b; cursor: pointer; font-size: 12px; }
 
-        /* ===== STATUS ===== */
+        /* Status */
         #firebaseStatus { text-align: center; color: #64748b; font-size: 12px; padding: 14px 5px; line-height: 1.5; }
         .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(148,163,184,.25); border-top-color: #38bdf8; border-radius: 50%; animation: spin .7s linear infinite; vertical-align: -2px; margin-right: 6px; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -217,9 +224,9 @@
 
 <body>
 <div class="app-card">
-    <div id="errorBanner" onclick="this.style.display='none'">⚠️ Firebase Error - Tap to dismiss. Check Database Rules.</div>
+    <div id="errorBanner" onclick="this.style.display='none'">⚠️ Firebase Error - Tap to dismiss.</div>
 
-    <!-- TAB 1: CHATS -->
+    <!-- CHATS TAB -->
     <div id="chatsTab" class="tab-content active">
         <div class="app-header" style="margin: -16px -16px 12px -16px;">
             <div class="search-box">
@@ -239,7 +246,7 @@
         </div>
     </div>
 
-    <!-- TAB 2: FRIENDS -->
+    <!-- FRIENDS TAB -->
     <div id="friendsTab" class="tab-content">
         <h3 style="font-size:18px; margin-bottom:10px;">Friends</h3>
         <div class="settings-group">
@@ -252,7 +259,7 @@
         </div>
     </div>
 
-    <!-- TAB 3: SETTINGS -->
+    <!-- SETTINGS TAB -->
     <div id="settingsTab" class="tab-content">
         <h3 style="font-size:18px; margin-bottom:10px;">Settings</h3>
         <div class="settings-group">
@@ -262,7 +269,7 @@
         </div>
     </div>
 
-    <!-- TAB 4: ACCOUNT -->
+    <!-- ACCOUNT TAB -->
     <div id="accountTab" class="tab-content">
         <div class="instagram-profile">
             <div class="profile-header-insta">
@@ -285,27 +292,16 @@
 
     <!-- BOTTOM NAVIGATION -->
     <div class="nav-bar">
-        <button type="button" class="nav-item active" data-tab="chats">
-            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> Chat
-        </button>
-        <button type="button" class="nav-item" data-tab="friends">
-            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Friends
-        </button>
+        <button type="button" class="nav-item active" data-tab="chats"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> Chat</button>
+        <button type="button" class="nav-item" data-tab="friends"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Friends</button>
         
-        <button type="button" class="nav-download-btn" id="navDownloadBtn">
-            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            APK
-        </button>
+        <button type="button" class="nav-download-btn" id="navDownloadBtn"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> APK</button>
 
-        <button type="button" class="nav-item" data-tab="settings">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 1-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 1 9 19.4a1.65 1.65 0 0 1-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 1 .33-1.82 1.65 1.65 0 0 1-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 1 4.6 9a1.65 1.65 0 0 1-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 1 8.09 4.6 1.65 1.65 0 0 1 9 3.09V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09A1.65 1.65 0 0 1 14 4.6a1.65 1.65 0 0 1 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 1 18.6 9a1.65 1.65 0 0 1 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09A1.65 1.65 0 0 1 19.4 15z"></path></svg> Setting
-        </button>
-        <button type="button" class="nav-item" data-tab="account">
-            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Account
-        </button>
+        <button type="button" class="nav-item" data-tab="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 1-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 1 9 19.4a1.65 1.65 0 0 1-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 1 .33-1.82 1.65 1.65 0 0 1-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 1 4.6 9a1.65 1.65 0 0 1-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 1 8.09 4.6 1.65 1.65 0 0 1 9 3.09V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09A1.65 1.65 0 0 1 14 4.6a1.65 1.65 0 0 1 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 1 18.6 9a1.65 1.65 0 0 1 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09A1.65 1.65 0 0 1 19.4 15z"></path></svg> Setting</button>
+        <button type="button" class="nav-item" data-tab="account"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Account</button>
     </div>
 
-    <!-- LIGHT CHAT ROOM -->
+    <!-- CHAT ROOM -->
     <div id="chatRoom" class="chat-room">
         <div class="chat-room-header">
             <div class="header-left-part" id="chatBackArea">
@@ -325,10 +321,7 @@
         <div id="chatMessages" class="chat-messages"></div>
 
         <div id="replyPreview" class="reply-preview">
-            <div>
-                <span id="replyToName">Replying to</span>
-                <p id="replyToText"></p>
-            </div>
+            <div><span id="replyToName">Replying to</span><p id="replyToText"></p></div>
             <button onclick="cancelReply()">✕</button>
         </div>
 
@@ -374,16 +367,9 @@
         }
         document.getElementById('fullscreenPrompt').style.display = 'none';
     }
-    function exitFullScreen() {
-        if (isFullscreen()) {
-            if (document.exitFullscreen) document.exitFullscreen();
-            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-            else if (document.msExitFullscreen) document.msExitFullscreen();
-        }
-    }
+    function exitFullScreen() { if (isFullscreen()) { if (document.exitFullscreen) document.exitFullscreen(); else if (document.webkitExitFullscreen) document.webkitExitFullscreen(); else if (document.msExitFullscreen) document.msExitFullscreen(); } }
     function toggleFullScreen() { isFullscreen() ? exitFullScreen() : requestFullScreen(); }
 
-    // Fixed APK Download Link
     function downloadApp() {
         window.location.href = "https://www.mediafire.com/file/vhbzh40rm5qgj70/ANJAY+PRIVATE+CHAT.apk/file";
     }
@@ -410,9 +396,7 @@
     try {
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         database = firebase.database();
-    } catch (e) {
-        console.error("Firebase init error:", e);
-    }
+    } catch (e) { console.error("Firebase init error:", e); }
 
     const myChatId = localStorage.getItem("myChatId");
     const savedUsername = localStorage.getItem("myUsername") || "";
@@ -429,17 +413,8 @@
 
     const $ = id => document.getElementById(id);
 
-    function escapeHTML(value) {
-        return String(value == null ? "" : value)
-            .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-    }
-
-    function avatarFallback(size) {
-        return size === 85 ? "https://via.placeholder.com/85/27272a/38bdf8?text=PFP"
-            : size === 40 ? "https://via.placeholder.com/40/eee/000?text=PFP"
-            : "https://via.placeholder.com/52/27272a/38bdf8?text=PFP";
-    }
+    function escapeHTML(value) { return String(value == null ? "" : value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;"); }
+    function avatarFallback(size) { return size === 85 ? "https://via.placeholder.com/85/27272a/38bdf8?text=PFP" : size === 40 ? "https://via.placeholder.com/40/eee/000?text=PFP" : "https://via.placeholder.com/52/27272a/38bdf8?text=PFP"; }
 
     function showFirebaseError(message) {
         const banner = document.getElementById("errorBanner");
@@ -484,7 +459,6 @@
         currentChatsRef.on("value", async function (snapshot) {
             const activeArea = $("activeChatsArea");
             activeArea.innerHTML = '<span class="section-title">Recent Chats</span>';
-            
             if (!snapshot.exists()) {
                 activeArea.innerHTML += '<p style="color:#64748b; font-size:12px; margin-top:8px;">No active chats yet.</p>';
                 $("chatsCountNum").innerText = "0";
@@ -492,7 +466,6 @@
                 else $("suggestionsWrapper").style.display = "none";
                 return;
             }
-
             const chatList = [];
             snapshot.forEach(child => chatList.push({ id: child.key, ...(child.val() || {}) }));
             chatList.sort((a, b) => (Number(b.timestamp) || 0) - (Number(a.timestamp) || 0));
@@ -543,7 +516,6 @@
         const listArea = $("chatListArea");
         $("suggestionsWrapper").style.display = "block";
         if (!listArea.innerHTML.trim()) listArea.innerHTML = '<p style="color:#64748b; font-size:12px;">Loading suggestions...</p>';
-        
         database.ref("users").once("value").then(function (snapshot) {
             const fragment = document.createDocumentFragment();
             let count = 0;
@@ -557,10 +529,7 @@
             listArea.innerHTML = "";
             if (count === 0) listArea.innerHTML = '<p style="color:#64748b; font-size:12px;">No suggestions available.</p>';
             else { listArea.appendChild(fragment); localStorage.setItem("fast_cached_sugg", listArea.innerHTML); }
-        }).catch(function (error) {
-            console.error("Suggestions error:", error);
-            listArea.innerHTML = '<p style="color:#fca5a5; font-size:12px;">Suggestions load failed: ' + escapeHTML(error.message || "") + '</p>';
-        });
+        }).catch(function (error) { console.error("Suggestions error:", error); listArea.innerHTML = '<p style="color:#fca5a5; font-size:12px;">Suggestions load failed: ' + escapeHTML(error.message || "") + '</p>'; });
     }
 
     function hideAllSuggestions() { $("suggestionsWrapper").style.display = "none"; localStorage.setItem("hideAllSuggestionsFlag", "true"); isSuggestionsHidden = true; }
@@ -594,16 +563,10 @@
                     const uData = child.val() || {};
                     const uKey = child.key;
                     const name = String(uData.username || "").toLowerCase();
-                    if (uKey !== myChatId && (uKey.toLowerCase().includes(q) || name.includes(q))) {
-                        found = true;
-                        listArea.appendChild(createUserCard(uKey, uData, null, true));
-                    }
+                    if (uKey !== myChatId && (uKey.toLowerCase().includes(q) || name.includes(q))) { found = true; listArea.appendChild(createUserCard(uKey, uData, null, true)); }
                 });
                 if (!found) listArea.innerHTML = '<p style="text-align:center; color:#64748b;">No user found.</p>';
-            }).catch(function (error) {
-                listArea.innerHTML = '<p style="text-align:center; color:#fca5a5;">Search failed.</p>';
-                console.error(error);
-            });
+            }).catch(function (error) { listArea.innerHTML = '<p style="text-align:center; color:#fca5a5;">Search failed.</p>'; console.error(error); });
         }, 180);
     }
 
@@ -619,8 +582,9 @@
 
     function cancelReply() { replyToMsg = null; $("replyPreview").style.display = "none"; }
 
+    // ============ CHAT ROOM OPEN FIX ============
     function openChatRoom(targetId, targetName, targetPfp) {
-        if (!database || !myChatId) return;
+        // Always open the chat room UI, even if database is null
         currentChatUser = { id: targetId, name: targetName, pfp: targetPfp || avatarFallback(40) };
         $("activeChatName").innerText = targetName;
         $("activeChatIdDisplay").innerText = "@" + targetId;
@@ -629,16 +593,22 @@
         $("chatRoom").classList.add("active");
         cancelReply();
         
-        database.ref("user_chats/" + myChatId + "/" + targetId).update({ unread: false }).catch(console.error);
-        database.ref("user_chats/" + myChatId + "/" + targetId).update({ lastSeen: firebase.database.ServerValue.TIMESTAMP }).catch(console.error);
+        // Only update database if available
+        if (database && myChatId) {
+            database.ref("user_chats/" + myChatId + "/" + targetId).update({ unread: false }).catch(console.error);
+            database.ref("user_chats/" + myChatId + "/" + targetId).update({ lastSeen: firebase.database.ServerValue.TIMESTAMP }).catch(console.error);
+        } else {
+            $("chatMessages").innerHTML = '<p style="text-align:center; color:#ef4444; padding:20px;">Firebase not connected. Check internet & rules.</p>';
+        }
         
         listenToMessages(targetId);
         listenTypingStatus(targetId);
         setTimeout(function () { $("msgInput").focus(); }, 250);
     }
+    // ============================================
 
     function closeChatRoom() {
-        if (currentChatUser) database.ref("user_chats/" + myChatId + "/" + currentChatUser.id).update({ typing: false }).catch(console.error);
+        if (currentChatUser && database) database.ref("user_chats/" + myChatId + "/" + currentChatUser.id).update({ typing: false }).catch(console.error);
         $("chatRoom").classList.remove("active");
         if (currentMessagesRef) { currentMessagesRef.off(); currentMessagesRef = null; }
         currentChatUser = null; $("msgInput").value = ""; $("typingIndicator").style.display = "none";
@@ -648,7 +618,8 @@
     function sendMessage() {
         const input = $("msgInput");
         const text = input.value.trim();
-        if (!text || !currentChatUser || !database || !myChatId) return;
+        if (!text || !currentChatUser) { alert("Please select a user or type a message."); return; }
+        if (!database || !myChatId) { alert("Firebase not connected."); return; }
         const roomId = getChatRoomId(myChatId, currentChatUser.id);
         const msgRef = database.ref("chats/" + roomId).push();
         const msgId = msgRef.key;
@@ -664,7 +635,8 @@
     }
 
     function sendImage(file) {
-        if (!file || !currentChatUser || !database || !myChatId) return;
+        if (!file || !currentChatUser) { alert("Please select a user first."); return; }
+        if (!database || !myChatId) { alert("Firebase not connected."); return; }
         if (file.size > 2 * 1024 * 1024) { alert("Image must be under 2MB."); return; }
         const reader = new FileReader();
         reader.onload = function(e) {
@@ -729,14 +701,9 @@
                 if (isMe && msg.seen) { meta.textContent = "Seen " + formatSeenTime(msg.seen); meta.classList.add("seen"); } else { meta.textContent = time; }
                 bubble.appendChild(meta);
 
-                // Swipe to Reply
                 let startTouchX = 0; let startTouchY = 0;
                 bubble.addEventListener("touchstart", function(e) { startTouchX = e.touches[0].clientX; startTouchY = e.touches[0].clientY; }, { passive: true });
-                bubble.addEventListener("touchend", function(e) {
-                    const endTouchX = e.changedTouches[0].clientX; const endTouchY = e.changedTouches[0].clientY;
-                    const deltaX = endTouchX - startTouchX; const deltaY = endTouchY - startTouchY;
-                    if (Math.abs(deltaX) > 60 && Math.abs(deltaY) < 30) { e.preventDefault(); startReply(msgId, msg.text || "📷 Photo", isMe ? "You" : currentChatUser.name); }
-                }, { passive: false });
+                bubble.addEventListener("touchend", function(e) { const endTouchX = e.changedTouches[0].clientX; const endTouchY = e.changedTouches[0].clientY; const deltaX = endTouchX - startTouchX; const deltaY = endTouchY - startTouchY; if (Math.abs(deltaX) > 60 && Math.abs(deltaY) < 30) { e.preventDefault(); startReply(msgId, msg.text || "📷 Photo", isMe ? "You" : currentChatUser.name); } }, { passive: false });
 
                 if (isMe) {
                     bubble.addEventListener("mousedown", function (e) { startPress(msgId, msg.text || "", e.clientX, e.clientY); });
@@ -750,20 +717,15 @@
             });
             msgContainer.scrollTop = msgContainer.scrollHeight;
             if (currentChatUser && currentChatUser.id === targetId) markMessagesAsSeen(targetId);
-        }, function (error) {
-            console.error("Messages error:", error);
-            $("chatMessages").innerHTML = '<p style="text-align:center; color:#ef4444; padding:20px;">Messages load failed: ' + escapeHTML(error.message || "") + '</p>';
-        });
+        }, function (error) { console.error("Messages error:", error); $("chatMessages").innerHTML = '<p style="text-align:center; color:#ef4444; padding:20px;">Messages load failed: ' + escapeHTML(error.message || "") + '</p>'; });
     }
 
     function markMessagesAsSeen(targetId) {
+        if (!database || !myChatId) return;
         const roomId = getChatRoomId(myChatId, targetId);
         database.ref("chats/" + roomId).once("value").then(function(snapshot) {
             const updates = {};
-            snapshot.forEach(function(child) {
-                const msg = child.val() || {};
-                if (msg.sender !== myChatId && !msg.seen) updates["chats/" + roomId + "/" + child.key + "/seen"] = firebase.database.ServerValue.TIMESTAMP;
-            });
+            snapshot.forEach(function(child) { const msg = child.val() || {}; if (msg.sender !== myChatId && !msg.seen) updates["chats/" + roomId + "/" + child.key + "/seen"] = firebase.database.ServerValue.TIMESTAMP; });
             if (Object.keys(updates).length > 0) database.ref().update(updates).catch(console.error);
         }).catch(console.error);
         database.ref("user_chats/" + targetId + "/" + myChatId).update({ lastSeen: firebase.database.ServerValue.TIMESTAMP, unread: false }).catch(console.error);
@@ -785,31 +747,19 @@
         typingTimeout = setTimeout(function() { database.ref("user_chats/" + myChatId + "/" + currentChatUser.id).update({ typing: false }).catch(console.error); }, 2000);
     }
 
-    function formatSeenTime(timestamp) {
-        if (!timestamp) return "just now";
-        const diff = Date.now() - timestamp;
-        if (diff < 60000) return "just now";
-        return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
+    function formatSeenTime(timestamp) { if (!timestamp) return "just now"; const diff = Date.now() - timestamp; if (diff < 60000) return "just now"; return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
 
     function startPress(msgId, text, x, y) { cancelPress(); pressTimer = setTimeout(function () { showContextMenu(msgId, text, x, y); }, 600); }
     function cancelPress() { if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; } }
-    function showContextMenu(msgId, text, x, y) {
-        selectedMsgId = msgId; selectedMsgText = text;
-        const menu = $("contextMenu"); menu.style.display = "flex";
-        if (x + 120 > window.innerWidth) x = window.innerWidth - 130;
-        if (y + 85 > window.innerHeight) y = window.innerHeight - 95;
-        menu.style.left = Math.max(5, x) + "px"; menu.style.top = Math.max(5, y) + "px";
-    }
+    function showContextMenu(msgId, text, x, y) { selectedMsgId = msgId; selectedMsgText = text; const menu = $("contextMenu"); menu.style.display = "flex"; if (x + 120 > window.innerWidth) x = window.innerWidth - 130; if (y + 85 > window.innerHeight) y = window.innerHeight - 95; menu.style.left = Math.max(5, x) + "px"; menu.style.top = Math.max(5, y) + "px"; }
     function closeContextMenu() { $("contextMenu").style.display = "none"; selectedMsgId = null; }
+
     function triggerEditMessage() {
         if (!currentChatUser || !selectedMsgId) return;
         const newText = prompt("Edit message:", selectedMsgText);
         if (newText && newText.trim() !== "") {
             const roomId = getChatRoomId(myChatId, currentChatUser.id);
-            database.ref("chats/" + roomId + "/" + selectedMsgId).update({ text: newText.trim() })
-            .then(function () { return database.ref("user_chats/" + myChatId + "/" + currentChatUser.id).update({ lastMsg: "You: " + newText.trim() }); })
-            .catch(function (error) { alert("Edit failed: " + error.message); });
+            database.ref("chats/" + roomId + "/" + selectedMsgId).update({ text: newText.trim() }).then(function () { return database.ref("user_chats/" + myChatId + "/" + currentChatUser.id).update({ lastMsg: "You: " + newText.trim() }); }).catch(function (error) { alert("Edit failed: " + error.message); });
         }
         closeContextMenu();
     }
@@ -825,37 +775,19 @@
     function triggerPfpUpload() { $("pfpFileInput").click(); }
     function uploadProfilePic(input) {
         if (!input.files || !input.files[0] || !database || !myChatId) return;
-        const file = input.files[0];
-        if (file.size > 2 * 1024 * 1024) { alert("Please select an image under 2MB."); input.value = ""; return; }
+        const file = input.files[0]; if (file.size > 2 * 1024 * 1024) { alert("Please select an image under 2MB."); input.value = ""; return; }
         const reader = new FileReader();
-        reader.onload = function (e) {
-            const dataUrl = e.target.result;
-            $("myProfilePic").src = dataUrl;
-            database.ref("users/" + myChatId).update({ pfp: dataUrl }).catch(function (error) { alert("Profile picture save failed: " + error.message); });
-        };
+        reader.onload = function (e) { const dataUrl = e.target.result; $("myProfilePic").src = dataUrl; database.ref("users/" + myChatId).update({ pfp: dataUrl }).catch(function (error) { alert("Profile picture save failed: " + error.message); }); };
         reader.readAsDataURL(file);
     }
     function updateProfileData() {
         const newName = $("accountUsername").value.trim(); const newBio = $("accountBio").value.trim();
         if (newName.length < 3) { alert("Username min 3 chars."); return; }
         if (!database || !myChatId) return;
-        database.ref("users/" + myChatId).update({ username: newName, bio: newBio })
-        .then(function () { localStorage.setItem("myUsername", newName); alert("Profile saved!"); })
-        .catch(function (error) { alert("Profile save failed: " + error.message); });
+        database.ref("users/" + myChatId).update({ username: newName, bio: newBio }).then(function () { localStorage.setItem("myUsername", newName); alert("Profile saved!"); }).catch(function (error) { alert("Profile save failed: " + error.message); });
     }
-    function copyMyChatId() {
-        if (!myChatId) return;
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(myChatId).then(function () { alert("ID Copied: " + myChatId); }).catch(function () { fallbackCopy(myChatId); });
-        } else { fallbackCopy(myChatId); }
-    }
-    function fallbackCopy(text) {
-        const area = document.createElement("textarea");
-        area.value = text; area.style.position = "fixed"; area.style.opacity = "0";
-        document.body.appendChild(area); area.select();
-        try { document.execCommand("copy"); alert("ID Copied: " + text); } catch (e) { alert("Your Chat ID: " + text); }
-        area.remove();
-    }
+    function copyMyChatId() { if (!myChatId) return; if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(myChatId).then(function () { alert("ID Copied: " + myChatId); }).catch(function () { fallbackCopy(myChatId); }); } else { fallbackCopy(myChatId); } }
+    function fallbackCopy(text) { const area = document.createElement("textarea"); area.value = text; area.style.position = "fixed"; area.style.opacity = "0"; document.body.appendChild(area); area.select(); try { document.execCommand("copy"); alert("ID Copied: " + text); } catch (e) { alert("Your Chat ID: " + text); } area.remove(); }
     function logoutUser() { if (confirm("Log out?")) { localStorage.clear(); window.location.replace("index.html"); } }
 
     function handleKeyboard() {
@@ -903,7 +835,6 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () { init(); bindExtraEvents(); });
-
 })();
 </script>
 </body>
