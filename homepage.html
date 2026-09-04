@@ -37,8 +37,6 @@
         body {
             position: fixed;
             inset: 0;
-            width: 100%;
-            height: 100dvh; /* Dynamic Viewport Height for Keyboard */
         }
 
         button, input, textarea, .user-item, .nav-item {
@@ -121,21 +119,39 @@
         .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; border-radius: 12px; cursor: pointer; color: #e2e8f0; font-size: 14px; font-weight: 500; touch-action: manipulation; }
         .setting-item:active { background: rgba(255, 255, 255, 0.05); }
 
-        /* Bottom Navigation - 5 items */
+        /* Bottom Navigation - Modified to fit 5 items */
         .nav-bar {
             flex: 0 0 65px; height: 65px; padding-bottom: env(safe-area-inset-bottom); box-sizing: content-box;
             background: rgba(15, 15, 18, 0.98); border-top: 1px solid rgba(255, 255, 255, 0.08);
             display: flex; justify-content: space-around; align-items: center; z-index: 20; position: relative;
         }
 
-        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #94a3b8; cursor: pointer; font-size: 11px; font-weight: 600; background: none; border: none; flex: 1; height: 65px; min-width: 0; }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+            color: #94a3b8; cursor: pointer; font-size: 11px; font-weight: 600; background: none; border: none;
+            flex: 1; height: 65px; min-width: 0;
+        }
         .nav-item svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; pointer-events: none; }
         .nav-item.active { color: #38bdf8; }
         .nav-item.active svg { stroke: #38bdf8; }
-
+        
+        /* Download button style inside nav */
         .nav-download-btn {
-            background: #10b981; color: white; border-radius: 30px; padding: 5px 10px; font-size: 11px; font-weight: 800;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; height: 65px; flex: 1; border: none; cursor: pointer;
+            background: #10b981;
+            color: white;
+            border-radius: 30px;
+            padding: 5px 10px;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            height: 65px;
+            flex: 1;
+            border: none;
+            cursor: pointer;
         }
         .nav-download-btn svg { width: 20px; height: 20px; stroke: white; stroke-width: 2; fill: none; }
 
@@ -166,35 +182,7 @@
         .msg-bubble.me { background: #f9196b; color: white; border-radius: 20px; border-bottom-right-radius: 4px; }
         .msg-bubble.heshe { background: #ffffff; color: #000000; border: 1px solid #f0f0f0; border-radius: 20px; border-bottom-left-radius: 4px; }
 
-        /* Image Message Styling */
-        .msg-bubble img { max-width: 200px; max-height: 300px; border-radius: 10px; display: block; }
-
-        /* Seen Status */
-        .seen-status {
-            font-size: 10px;
-            color: #aaa;
-            margin-top: 4px;
-            text-align: right;
-            padding-right: 4px;
-        }
-        .seen-status.seen { color: #f9196b; font-weight: 600; }
-
-        /* Input Area - FIXED for Keyboard */
-        #chatInputArea {
-            flex: 0 0 auto;
-            padding: 10px 16px 15px 16px;
-            padding-bottom: max(15px, env(safe-area-inset-bottom));
-            background: #ffffff;
-            border-top: 1px solid #f0f0f0;
-            display: flex;
-            align-items: center;
-            position: fixed; /* To handle keyboard overlap */
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            z-index: 60;
-            transition: bottom 0.1s ease-out;
-        }
+        .chat-input-area { flex: 0 0 auto; padding: 10px 16px 15px 16px; padding-bottom: max(15px, env(safe-area-inset-bottom)); background: #ffffff; border-top: 1px solid #f0f0f0; display: flex; align-items: center; }
         .input-pill { flex: 1; display: flex; align-items: center; background: #f1f2f6; border-radius: 30px; padding: 4px 16px; gap: 10px; min-width: 0; }
         .input-pill .cam-icon { background: #f9196b; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; cursor: pointer; flex-shrink: 0; }
         .input-pill input { flex: 1; min-width: 0; border: none; background: transparent; color: #000; font-size: 15px; padding: 10px 0; outline: none; }
@@ -226,8 +214,15 @@
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* Fullscreen Prompt */
-        #fullscreenPrompt { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 10000; display: none; align-items: center; justify-content: center; text-align: center; color: white; padding: 20px; }
-        #fullscreenPrompt button { background: #38bdf8; color: #09090b; border: none; padding: 15px 30px; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 15px; }
+        #fullscreenPrompt {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); z-index: 10000; display: none;
+            align-items: center; justify-content: center; text-align: center; color: white; padding: 20px;
+        }
+        #fullscreenPrompt button {
+            background: #38bdf8; color: #09090b; border: none; padding: 15px 30px;
+            border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 15px;
+        }
     </style>
 </head>
 
@@ -258,8 +253,14 @@
     <div id="friendsTab" class="tab-content">
         <h3 style="font-size:18px; margin-bottom:10px;">Friends</h3>
         <div class="settings-group">
-            <div class="setting-item" id="friendRequestsBtn"><span>👥 Friend Requests</span><span style="color:#38bdf8;">0 Pending</span></div>
-            <div class="setting-item" id="addFriendsBtn"><span>➕ Add New Friends</span><span>🔍</span></div>
+            <div class="setting-item" id="friendRequestsBtn">
+                <span>👥 Friend Requests</span>
+                <span style="color:#38bdf8;">0 Pending</span>
+            </div>
+            <div class="setting-item" id="addFriendsBtn">
+                <span>➕ Add New Friends</span>
+                <span>🔍</span>
+            </div>
         </div>
         <span class="section-title" style="margin-top:15px;">Your Friend List</span>
         <div id="friendsListArea" style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
@@ -271,9 +272,18 @@
     <div id="settingsTab" class="tab-content">
         <h3 style="font-size:18px; margin-bottom:10px;">Settings</h3>
         <div class="settings-group">
-            <div class="setting-item" id="notificationsBtn"><span>🔔 Notifications</span><span style="color:#10b981;">On</span></div>
-            <div class="setting-item" id="restoreSuggestionsBtn"><span>🔄 Restore Hidden Suggestions</span><span>›</span></div>
-            <div class="setting-item" id="clearCacheBtn"><span>⚡ Clear App Cache (Speed up)</span><span>›</span></div>
+            <div class="setting-item" id="notificationsBtn">
+                <span>🔔 Notifications</span>
+                <span style="color:#10b981;">On</span>
+            </div>
+            <div class="setting-item" id="restoreSuggestionsBtn">
+                <span>🔄 Restore Hidden Suggestions</span>
+                <span>›</span>
+            </div>
+            <div class="setting-item" id="clearCacheBtn">
+                <span>⚡ Clear App Cache (Speed up)</span>
+                <span>›</span>
+            </div>
         </div>
     </div>
 
@@ -283,15 +293,25 @@
             <div class="profile-header-insta">
                 <img id="myProfilePic" src="https://via.placeholder.com/85/27272a/38bdf8?text=PFP" class="insta-avatar" alt="Profile">
                 <input type="file" id="pfpFileInput" style="display:none;" accept="image/*">
-                <div class="insta-stats"><div class="stat-box"><h3 id="chatsCountNum">0</h3><p>Chats</p></div></div>
+                <div class="insta-stats">
+                    <div class="stat-box">
+                        <h3 id="chatsCountNum">0</h3>
+                        <p>Chats</p>
+                    </div>
+                </div>
             </div>
             <div class="chat-id-box">
-                <div><p style="font-size:10px; color:#94a3b8;">YOUR CHAT ID</p><h4 id="displayChatId" style="font-size:15px; font-family:monospace; color:#38bdf8;">------</h4></div>
+                <div>
+                    <p style="font-size:10px; color:#94a3b8;">YOUR CHAT ID</p>
+                    <h4 id="displayChatId" style="font-size:15px; font-family:monospace; color:#38bdf8;">------</h4>
+                </div>
                 <button type="button" class="copy-btn" id="copyIdBtn">Copy</button>
             </div>
             <div class="edit-profile-form">
-                <label>Username</label><input type="text" id="accountUsername" autocomplete="off">
-                <label>Bio</label><textarea id="accountBio"></textarea>
+                <label>Username</label>
+                <input type="text" id="accountUsername" autocomplete="off">
+                <label>Bio</label>
+                <textarea id="accountBio"></textarea>
                 <button type="button" class="action-btn" id="saveProfileBtn">Save Changes</button>
             </div>
             <button type="button" class="action-btn" style="background:rgba(239,68,68,0.15); color:#ef4444; margin-top:10px;" id="logoutBtn">Log Out</button>
@@ -307,6 +327,7 @@
             <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Friends
         </button>
         
+        <!-- DOWNLOAD BUTTON IN MIDDLE -->
         <button type="button" class="nav-download-btn" onclick="downloadApp()">
             <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
             APK
@@ -337,14 +358,9 @@
             </div>
         </div>
         <div id="chatMessages" class="chat-messages"></div>
-        
-        <!-- Hidden Image Input -->
-        <input type="file" id="imageInput" style="display:none;" accept="image/*">
-        
-        <!-- Chat Input Area (Fixed for Keyboard) -->
-        <div id="chatInputArea">
+        <div class="chat-input-area">
             <div class="input-pill">
-                <div class="cam-icon" id="cameraBtn" onclick="triggerImageUpload()">📷</div>
+                <div class="cam-icon" id="cameraBtn">📷</div>
                 <input type="text" id="msgInput" placeholder="Message..." autocomplete="off">
                 <button type="button" class="send-airplane-btn" id="sendBtn">➤</button>
             </div>
@@ -382,9 +398,13 @@
     function requestFullScreen() {
         const elem = document.documentElement;
         if (!isFullscreen()) {
-            if (elem.requestFullscreen) elem.requestFullscreen().catch(function(){});
-            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(function(){});
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
         }
         document.getElementById('fullscreenPrompt').style.display = 'none';
     }
@@ -411,7 +431,7 @@
         document.body.removeChild(link);
     }
 
-    // Auto fullscreen on load & touch
+    // Attempt auto fullscreen on load and on first touch
     setTimeout(function() {
         if (!isFullscreen()) requestFullScreen();
         setTimeout(function() {
@@ -419,29 +439,15 @@
         }, 1500);
     }, 1000);
 
-    document.addEventListener('touchstart', function() { if (!isFullscreen()) requestFullScreen(); }, { once: true, passive: true });
-    document.addEventListener('click', function() { if (!isFullscreen()) requestFullScreen(); }, { once: true });
+    document.addEventListener('touchstart', function() {
+        if (!isFullscreen()) requestFullScreen();
+    }, { once: true, passive: true });
 
-    // ==========================================
-    // KEYBOARD HANDLING (Visual Viewport)
-    // ==========================================
-    function handleViewportResize() {
-        const inputArea = document.getElementById('chatInputArea');
-        if (window.visualViewport && inputArea) {
-            // Calculate how much the keyboard is covering
-            const keyboardHeight = window.innerHeight - window.visualViewport.height;
-            inputArea.style.bottom = keyboardHeight + 'px';
-        }
-    }
+    document.addEventListener('click', function() {
+        if (!isFullscreen()) requestFullScreen();
+    }, { once: true });
 
-    if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', handleViewportResize);
-        window.visualViewport.addEventListener('scroll', handleViewportResize);
-    }
-
-    // ==========================================
-    // Firebase Init & Config
-    // ==========================================
+    // Firebase
     const firebaseConfig = {
         apiKey: "AIzaSyAJBgC-DTaoKdg_hmnxMAMPM-0tIQ999Js",
         authDomain: "anjay-sms-d7930.firebaseapp.com",
@@ -466,7 +472,6 @@
     let currentChatUser = null;
     let currentMessagesRef = null;
     let currentChatsRef = null;
-    let currentReadRef = null; // Reference for read receipts
     let pressTimer = null;
     let selectedMsgId = null;
     let selectedMsgText = "";
@@ -476,58 +481,27 @@
 
     function escapeHTML(value) {
         return String(value == null ? "" : value)
-            .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
     }
 
     function avatarFallback(size) {
-        return size === 85 ? "https://via.placeholder.com/85/27272a/38bdf8?text=PFP"
-            : size === 40 ? "https://via.placeholder.com/40/eee/000?text=PFP"
+        return size === 85
+            ? "https://via.placeholder.com/85/27272a/38bdf8?text=PFP"
+            : size === 40
+            ? "https://via.placeholder.com/40/eee/000?text=PFP"
             : "https://via.placeholder.com/52/27272a/38bdf8?text=PFP";
     }
 
-    // Time Ago Function
-    function timeAgo(timestamp) {
-        if (!timestamp) return "just now";
-        const seconds = Math.floor((Date.now() - timestamp) / 1000);
-        if (seconds < 60) return "just now";
-        const minutes = Math.floor(seconds / 60);
-        if (minutes < 60) return minutes + " min ago";
-        const hours = Math.floor(minutes / 60);
-        if (hours < 24) return hours + " hours ago";
-        const days = Math.floor(hours / 24);
-        return days + " days ago";
+    function showFirebaseError(message) {
+        $("activeChatsArea").innerHTML =
+            '<span class="section-title">Recent Chats</span>' +
+            '<div id="firebaseStatus" style="color:#fca5a5;">' + escapeHTML(message) + '</div>';
     }
 
-    // ==========================================
-    // Image Sending Functionality
-    // ==========================================
-    function triggerImageUpload() {
-        $("imageInput").click();
-    }
-
-    function uploadImage(input) {
-        if (!input.files || !input.files[0] || !database || !myChatId || !currentChatUser) return;
-
-        const file = input.files[0];
-        if (file.size > 2 * 1024 * 1024) { // 2MB limit
-            alert("Photo size 2MB se kam honi chahiye.");
-            input.value = "";
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const base64Image = e.target.result;
-            sendMessage(base64Image, 'image');
-            input.value = "";
-        };
-        reader.readAsDataURL(file);
-    }
-
-    // ==========================================
-    // Core Chat Functions
-    // ==========================================
     function switchTab(tabName, btnElement) {
         document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
         document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
@@ -703,9 +677,6 @@
 
     function getChatRoomId(id1, id2) { return id1 < id2 ? id1 + "_" + id2 : id2 + "_" + id1; }
 
-    // ==========================================
-    // CHAT ROOM OPEN / SEEN LOGIC
-    // ==========================================
     function openChatRoom(targetId, targetName, targetPfp) {
         if (!database || !myChatId) return;
         currentChatUser = { id: targetId, name: targetName, pfp: targetPfp || avatarFallback(40) };
@@ -713,13 +684,7 @@
         $("activeChatIdDisplay").innerText = "@" + targetId;
         $("activeChatAvatar").src = currentChatUser.pfp;
         $("chatRoom").classList.add("active");
-
-        // Mark user's own lastSeen in the other user's chat list
-        database.ref("user_chats/" + targetId + "/" + myChatId).update({ lastSeen: firebase.database.ServerValue.TIMESTAMP });
-
-        // Clear unread
         database.ref("user_chats/" + myChatId + "/" + targetId).update({ unread: false }).catch(console.error);
-
         listenToMessages(targetId);
         setTimeout(function () { $("msgInput").focus(); }, 250);
     }
@@ -727,82 +692,44 @@
     function closeChatRoom() {
         $("chatRoom").classList.remove("active");
         if (currentMessagesRef) { currentMessagesRef.off(); currentMessagesRef = null; }
-        if (currentReadRef) { currentReadRef.off(); currentReadRef = null; }
         currentChatUser = null;
         $("msgInput").value = "";
-        $("chatInputArea").style.bottom = "0px"; // Reset keyboard pos
         closeContextMenu();
     }
 
-    function sendMessage(content, type) {
-        if (!content || !currentChatUser || !database || !myChatId) return;
-        
-        const text = content;
-        const msgType = type || 'text'; // Default to text
-        
+    function sendMessage() {
+        const input = $("msgInput");
+        const text = input.value.trim();
+        if (!text || !currentChatUser || !database || !myChatId) return;
         const roomId = getChatRoomId(myChatId, currentChatUser.id);
         const msgRef = database.ref("chats/" + roomId).push();
         const msgId = msgRef.key;
         const now = firebase.database.ServerValue.TIMESTAMP;
         const localNow = Date.now();
-
         const updates = {};
-        updates["chats/" + roomId + "/" + msgId] = {
-            sender: myChatId,
-            text: text,
-            type: msgType,
-            timestamp: now
-        };
-
-        updates["user_chats/" + myChatId + "/" + currentChatUser.id] = {
-            timestamp: localNow,
-            lastMsg: (msgType === 'image' ? '📷 Photo' : text),
-            unread: false
-        };
-
-        updates["user_chats/" + currentChatUser.id + "/" + myChatId] = {
-            timestamp: localNow,
-            lastMsg: (msgType === 'image' ? '📷 Photo' : text),
-            unread: true
-        };
-
-        database.ref().update(updates).then(function () {
-            if (msgType === 'text') {
-                $("msgInput").value = "";
-            }
-        }).catch(function (error) {
-            alert("Message send failed: " + (error.message || "Firebase permission/network error"));
-            console.error(error);
-        });
+        updates["chats/" + roomId + "/" + msgId] = { sender: myChatId, text: text, timestamp: now };
+        updates["user_chats/" + myChatId + "/" + currentChatUser.id] = { timestamp: localNow, lastMsg: "You: " + text, unread: false };
+        updates["user_chats/" + currentChatUser.id + "/" + myChatId] = { timestamp: localNow, lastMsg: text, unread: true };
+        input.disabled = true;
+        database.ref().update(updates).then(function () { input.value = ""; input.disabled = false; input.focus(); })
+        .catch(function (error) { input.disabled = false; alert("Message send failed: " + (error.message || "Firebase permission/network error")); console.error(error); });
     }
 
     function listenToMessages(targetId) {
         if (!database || !myChatId) return;
         if (currentMessagesRef) currentMessagesRef.off();
-        if (currentReadRef) currentReadRef.off();
-
         const roomId = getChatRoomId(myChatId, targetId);
         currentMessagesRef = database.ref("chats/" + roomId);
-
         currentMessagesRef.on("value", function (snapshot) {
             const msgContainer = $("chatMessages");
             msgContainer.innerHTML = "";
-
             if (!snapshot.exists()) return;
-
-            let lastMsgTimestamp = 0;
-            
             snapshot.forEach(function (child) {
                 const msg = child.val() || {};
                 const msgId = child.key;
                 const isMe = msg.sender === myChatId;
-                
-                // Track last sent message timestamp
-                if (isMe && msg.timestamp) lastMsgTimestamp = msg.timestamp;
-
                 const row = document.createElement("div");
                 row.className = isMe ? "msg-row me-row" : "msg-row heshe-row";
-                
                 if (!isMe) {
                     const img = document.createElement("img");
                     img.src = currentChatUser ? currentChatUser.pfp : avatarFallback(40);
@@ -810,22 +737,9 @@
                     img.alt = "";
                     row.appendChild(img);
                 }
-
                 const bubble = document.createElement("div");
                 bubble.className = "msg-bubble " + (isMe ? "me" : "heshe");
-
-                // Render Image or Text
-                if (msg.type === 'image') {
-                    const img = document.createElement("img");
-                    img.src = msg.text;
-                    img.alt = "Image";
-                    img.loading = "lazy";
-                    bubble.appendChild(img);
-                } else {
-                    bubble.textContent = msg.text || "";
-                }
-
-                // Edit/Delete events for own messages
+                bubble.textContent = msg.text || "";
                 if (isMe) {
                     bubble.addEventListener("mousedown", function (e) { startPress(msgId, msg.text || "", e.clientX, e.clientY); });
                     bubble.addEventListener("mouseup", cancelPress);
@@ -834,42 +748,12 @@
                     bubble.addEventListener("touchend", cancelPress, { passive: true });
                     bubble.addEventListener("touchcancel", cancelPress, { passive: true });
                 }
-
                 row.appendChild(bubble);
                 msgContainer.appendChild(row);
             });
-
-            // Store last message timestamp for seen logic
             msgContainer.scrollTop = msgContainer.scrollHeight;
-            
             if (currentChatUser && currentChatUser.id === targetId) {
-                // Update my unread in this chat
                 database.ref("user_chats/" + myChatId + "/" + targetId).update({ unread: false }).catch(console.error);
-
-                // Listen to OTHER user's lastSeen to update my UI
-                currentReadRef = database.ref("user_chats/" + targetId + "/" + myChatId + "/lastSeen");
-                currentReadRef.on("value", function(snap) {
-                    const otherUserLastSeen = snap.val();
-                    
-                    // Update status for all my sent messages
-                    const rows = document.querySelectorAll(".msg-row.me-row");
-                    rows.forEach(function(row) {
-                        let statusEl = row.querySelector(".seen-status");
-                        if (!statusEl) {
-                            statusEl = document.createElement("div");
-                            statusEl.className = "seen-status";
-                            row.appendChild(statusEl);
-                        }
-
-                        if (otherUserLastSeen && lastMsgTimestamp && otherUserLastSeen >= lastMsgTimestamp) {
-                            statusEl.innerText = "Seen " + timeAgo(otherUserLastSeen);
-                            statusEl.classList.add("seen");
-                        } else {
-                            statusEl.innerText = "Delivered";
-                            statusEl.classList.remove("seen");
-                        }
-                    });
-                });
             }
         }, function (error) {
             console.error("Messages error:", error);
@@ -908,4 +792,76 @@
     }
     function triggerPfpUpload() { $("pfpFileInput").click(); }
     function uploadProfilePic(input) {
-        if (!input.files ||
+        if (!input.files || !input.files[0] || !database || !myChatId) return;
+        const file = input.files[0];
+        if (file.size > 2 * 1024 * 1024) { alert("Please select an image under 2MB."); input.value = ""; return; }
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const dataUrl = e.target.result;
+            $("myProfilePic").src = dataUrl;
+            database.ref("users/" + myChatId).update({ pfp: dataUrl }).catch(function (error) { alert("Profile picture save failed: " + error.message); });
+        };
+        reader.readAsDataURL(file);
+    }
+    function updateProfileData() {
+        const newName = $("accountUsername").value.trim();
+        const newBio = $("accountBio").value.trim();
+        if (newName.length < 3) { alert("Username min 3 chars."); return; }
+        if (!database || !myChatId) return;
+        database.ref("users/" + myChatId).update({ username: newName, bio: newBio })
+        .then(function () { localStorage.setItem("myUsername", newName); alert("Profile saved!"); })
+        .catch(function (error) { alert("Profile save failed: " + error.message); });
+    }
+    function copyMyChatId() {
+        if (!myChatId) return;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(myChatId).then(function () { alert("ID Copied: " + myChatId); }).catch(function () { fallbackCopy(myChatId); });
+        } else { fallbackCopy(myChatId); }
+    }
+    function fallbackCopy(text) {
+        const area = document.createElement("textarea");
+        area.value = text; area.style.position = "fixed"; area.style.opacity = "0";
+        document.body.appendChild(area); area.select();
+        try { document.execCommand("copy"); alert("ID Copied: " + text); } catch (e) { alert("Your Chat ID: " + text); }
+        area.remove();
+    }
+    function logoutUser() { if (confirm("Log out?")) { localStorage.clear(); window.location.replace("index.html"); } }
+
+    function init() {
+        if (!myChatId) { window.location.replace("index.html"); return; }
+        renderCachedChatsAndSuggestions();
+        loadUserProfileFast();
+        if (database) loadRealtimeChats(); else showFirebaseError("Firebase initialization failed.");
+        document.querySelectorAll(".nav-item").forEach(function (btn) { btn.addEventListener("click", function () { switchTab(btn.dataset.tab, btn); }); });
+        $("searchInput").addEventListener("input", function () { searchUsers(this.value); });
+        $("searchInput").addEventListener("keydown", function (e) { e.stopPropagation(); });
+        $("msgInput").addEventListener("keydown", function (event) { if (event.key === "Enter") { event.preventDefault(); sendMessage(); } });
+        $("sendBtn").addEventListener("click", sendMessage);
+        $("chatBackArea").addEventListener("click", function (e) { if (e.target.closest(".header-action-icons")) return; closeChatRoom(); });
+        $("voiceCallBtn").addEventListener("click", function () { alert("Voice Call coming soon..."); });
+        $("videoCallBtn").addEventListener("click", function () { alert("Video Call coming soon..."); });
+        $("cameraBtn").addEventListener("click", function () { alert("Camera coming soon..."); });
+    }
+
+    function bindExtraEvents() {
+        document.querySelector(".hide-all-btn").addEventListener("click", function (e) { e.stopPropagation(); hideAllSuggestions(); });
+        $("friendRequestsBtn").addEventListener("click", function () { alert("Friend requests coming soon!"); });
+        $("addFriendsBtn").addEventListener("click", function () { switchTab("chats", document.querySelector('.nav-item[data-tab="chats"]')); $("searchInput").focus(); });
+        $("notificationsBtn").addEventListener("click", function () { alert("Notifications are enabled by default"); });
+        $("restoreSuggestionsBtn").addEventListener("click", resetSuggestions);
+        $("clearCacheBtn").addEventListener("click", clearLocalAppCache);
+        $("myProfilePic").addEventListener("click", triggerPfpUpload);
+        $("pfpFileInput").addEventListener("change", function () { uploadProfilePic(this); });
+        $("copyIdBtn").addEventListener("click", copyMyChatId);
+        $("saveProfileBtn").addEventListener("click", updateProfileData);
+        $("logoutBtn").addEventListener("click", logoutUser);
+        document.addEventListener("click", function (e) { if (!e.target.closest("#contextMenu")) closeContextMenu(); }, { passive: true });
+        document.addEventListener("touchmove", function (e) { }, { passive: true });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () { init(); bindExtraEvents(); });
+
+})();
+</script>
+</body>
+</html>
