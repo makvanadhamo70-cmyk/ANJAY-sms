@@ -119,17 +119,41 @@
         .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; border-radius: 12px; cursor: pointer; color: #e2e8f0; font-size: 14px; font-weight: 500; touch-action: manipulation; }
         .setting-item:active { background: rgba(255, 255, 255, 0.05); }
 
-        /* Bottom Navigation */
+        /* Bottom Navigation - Modified to fit 5 items */
         .nav-bar {
             flex: 0 0 65px; height: 65px; padding-bottom: env(safe-area-inset-bottom); box-sizing: content-box;
             background: rgba(15, 15, 18, 0.98); border-top: 1px solid rgba(255, 255, 255, 0.08);
             display: flex; justify-content: space-around; align-items: center; z-index: 20; position: relative;
         }
 
-        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #94a3b8; cursor: pointer; font-size: 11px; font-weight: 600; background: none; border: none; flex: 1; height: 65px; min-width: 0; }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+            color: #94a3b8; cursor: pointer; font-size: 11px; font-weight: 600; background: none; border: none;
+            flex: 1; height: 65px; min-width: 0;
+        }
         .nav-item svg { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2; fill: none; pointer-events: none; }
         .nav-item.active { color: #38bdf8; }
         .nav-item.active svg { stroke: #38bdf8; }
+        
+        /* Download button style inside nav */
+        .nav-download-btn {
+            background: #10b981;
+            color: white;
+            border-radius: 30px;
+            padding: 5px 10px;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            height: 65px;
+            flex: 1;
+            border: none;
+            cursor: pointer;
+        }
+        .nav-download-btn svg { width: 20px; height: 20px; stroke: white; stroke-width: 2; fill: none; }
 
         /* Light Chat Room */
         .chat-room {
@@ -189,73 +213,15 @@
         .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(148,163,184,.25); border-top-color: #38bdf8; border-radius: 50%; animation: spin .7s linear infinite; vertical-align: -2px; margin-right: 6px; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* ============================== */
-        /* NEW PERMANENT BUTTONS */
-        /* ============================== */
-        #fullscreenBtn {
-            position: fixed;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(56, 189, 248, 0.2);
-            border: 1px solid rgba(56, 189, 248, 0.5);
-            color: #38bdf8;
-            border-radius: 50px;
-            padding: 12px 14px;
-            font-size: 20px;
-            z-index: 9999;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        #downloadAppBtn {
-            position: fixed;
-            bottom: 15px;
-            right: 15px;
-            background: #10b981;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 12px 20px;
-            font-size: 14px;
-            font-weight: 700;
-            z-index: 9999;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
-        }
-
+        /* Fullscreen Prompt */
         #fullscreenPrompt {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            padding: 20px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); z-index: 10000; display: none;
+            align-items: center; justify-content: center; text-align: center; color: white; padding: 20px;
         }
-
         #fullscreenPrompt button {
-            background: #38bdf8;
-            color: #09090b;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: 800;
-            cursor: pointer;
-            margin-top: 15px;
+            background: #38bdf8; color: #09090b; border: none; padding: 15px 30px;
+            border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; margin-top: 15px;
         }
     </style>
 </head>
@@ -271,11 +237,9 @@
                 <input type="text" id="searchInput" placeholder="Search chats or users..." autocomplete="off">
             </div>
         </div>
-
         <div id="activeChatsArea">
             <div id="firebaseStatus"><span class="loading-spinner"></span>Loading chats...</div>
         </div>
-
         <div id="suggestionsWrapper">
             <div class="suggestions-header">
                 <span class="section-title">Suggestions</span>
@@ -354,7 +318,7 @@
         </div>
     </div>
 
-    <!-- BOTTOM NAVIGATION -->
+    <!-- BOTTOM NAVIGATION (Download button in middle) -->
     <div class="nav-bar">
         <button type="button" class="nav-item active" data-tab="chats">
             <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> Chat
@@ -362,6 +326,13 @@
         <button type="button" class="nav-item" data-tab="friends">
             <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> Friends
         </button>
+        
+        <!-- DOWNLOAD BUTTON IN MIDDLE -->
+        <button type="button" class="nav-download-btn" onclick="downloadApp()">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            APK
+        </button>
+
         <button type="button" class="nav-item" data-tab="settings">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 1-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 1 9 19.4a1.65 1.65 0 0 1-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 1 .33-1.82 1.65 1.65 0 0 1-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 1 4.6 9a1.65 1.65 0 0 1-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 1 8.09 4.6 1.65 1.65 0 0 1 9 3.09V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09A1.65 1.65 0 0 1 14 4.6a1.65 1.65 0 0 1 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 1 18.6 9a1.65 1.65 0 0 1 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09A1.65 1.65 0 0 1 19.4 15z"></path></svg> Setting
         </button>
@@ -403,11 +374,7 @@
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- PERMANENT BUTTONS & PROMPT -->
-<!-- ========================================== -->
-<div id="fullscreenBtn" onclick="toggleFullScreen()">⛶</div>
-<div id="downloadAppBtn" onclick="downloadApp()">⬇️ APK</div>
+<!-- Fullscreen Prompt -->
 <div id="fullscreenPrompt" style="display:none;">
     <div>
         <p style="font-size:18px; margin-bottom:10px;">Tap anywhere to go<br>Fullscreen</p>
@@ -423,9 +390,7 @@
 (function () {
     "use strict";
 
-    // ==========================================
-    // FULLSCREEN LOGIC (Auto, Prompt, Toggle, Download)
-    // ==========================================
+    // Fullscreen Functions
     function isFullscreen() {
         return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
     }
@@ -446,22 +411,15 @@
 
     function exitFullScreen() {
         if (isFullscreen()) {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-            }
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            else if (document.msExitFullscreen) document.msExitFullscreen();
         }
     }
 
     function toggleFullScreen() {
-        if (isFullscreen()) {
-            exitFullScreen();
-        } else {
-            requestFullScreen();
-        }
+        if (isFullscreen()) exitFullScreen();
+        else requestFullScreen();
     }
 
     function downloadApp() {
@@ -473,37 +431,23 @@
         document.body.removeChild(link);
     }
 
-    // Attempt auto fullscreen on page load (may or may not work depending on browser)
+    // Attempt auto fullscreen on load and on first touch
     setTimeout(function() {
-        if (!isFullscreen()) {
-            // Try to auto-fullscreen after 1.5 seconds (will likely fail but attempt)
-            requestFullScreen();
-            // If it fails, show a prompt after 3 seconds
-            setTimeout(function() {
-                if (!isFullscreen()) {
-                    document.getElementById('fullscreenPrompt').style.display = 'flex';
-                }
-            }, 1500);
-        }
+        if (!isFullscreen()) requestFullScreen();
+        setTimeout(function() {
+            if (!isFullscreen()) document.getElementById('fullscreenPrompt').style.display = 'flex';
+        }, 1500);
     }, 1000);
 
-    // On first touch anywhere, request fullscreen if not already
     document.addEventListener('touchstart', function() {
-        if (!isFullscreen()) {
-            requestFullScreen();
-        }
+        if (!isFullscreen()) requestFullScreen();
     }, { once: true, passive: true });
 
     document.addEventListener('click', function() {
-        if (!isFullscreen()) {
-            requestFullScreen();
-        }
+        if (!isFullscreen()) requestFullScreen();
     }, { once: true });
 
-    // ==========================================
-    // END FULLSCREEN LOGIC
-    // ==========================================
-
+    // Firebase
     const firebaseConfig = {
         apiKey: "AIzaSyAJBgC-DTaoKdg_hmnxMAMPM-0tIQ999Js",
         authDomain: "anjay-sms-d7930.firebaseapp.com",
@@ -569,15 +513,9 @@
     function renderCachedChatsAndSuggestions() {
         const cachedChats = localStorage.getItem("fast_cached_chats");
         const cachedSugg = localStorage.getItem("fast_cached_sugg");
-        if (cachedChats) {
-            $("activeChatsArea").innerHTML =
-                '<span class="section-title">Recent Chats</span>' + cachedChats;
-        }
-        if (cachedSugg && !isSuggestionsHidden) {
-            $("chatListArea").innerHTML = cachedSugg;
-        } else if (isSuggestionsHidden) {
-            $("suggestionsWrapper").style.display = "none";
-        }
+        if (cachedChats) $("activeChatsArea").innerHTML = '<span class="section-title">Recent Chats</span>' + cachedChats;
+        if (cachedSugg && !isSuggestionsHidden) $("chatListArea").innerHTML = cachedSugg;
+        else if (isSuggestionsHidden) $("suggestionsWrapper").style.display = "none";
     }
 
     function loadUserProfileFast() {
@@ -590,9 +528,7 @@
             $("accountUsername").value = data.username || savedUsername;
             $("accountBio").value = data.bio || "";
             if (data.pfp) $("myProfilePic").src = data.pfp;
-        }, function (error) {
-            console.error("Profile read error:", error);
-        });
+        }, function (error) { console.error("Profile read error:", error); });
     }
 
     function loadRealtimeChats() {
@@ -610,9 +546,7 @@
                 return;
             }
             const chatList = [];
-            snapshot.forEach(child => {
-                chatList.push({ id: child.key, ...(child.val() || {}) });
-            });
+            snapshot.forEach(child => chatList.push({ id: child.key, ...(child.val() || {}) }));
             chatList.sort((a, b) => (Number(b.timestamp) || 0) - (Number(a.timestamp) || 0));
             $("chatsCountNum").innerText = String(chatList.length);
             const fragment = document.createDocumentFragment();
@@ -624,9 +558,7 @@
                     const item = createUserCard(chatData.id, userSnap.val() || {}, chatData, false);
                     fragment.appendChild(item);
                     renderedItems.push(item);
-                } catch (err) {
-                    console.error("User read error:", err);
-                }
+                } catch (err) { console.error("User read error:", err); }
             }));
             activeArea.appendChild(fragment);
             let cacheHTML = "";
@@ -649,10 +581,8 @@
         const isUnread = !!(chatMeta && chatMeta.unread);
         item.innerHTML =
             '<img src="' + escapeHTML(pfp) + '" class="avatar" alt="">' +
-            '<div class="user-info">' +
-                '<h4>' + escapeHTML(username) + '</h4>' +
-                '<p class="' + (isUnread ? "unread-text" : "") + '">' + escapeHTML(displayMsg) + '</p>' +
-            '</div>';
+            '<div class="user-info"><h4>' + escapeHTML(username) + '</h4>' +
+            '<p class="' + (isUnread ? "unread-text" : "") + '">' + escapeHTML(displayMsg) + '</p></div>';
         item.addEventListener("click", function () { openChatRoom(targetId, username, pfp); }, { passive: true });
         return item;
     }
